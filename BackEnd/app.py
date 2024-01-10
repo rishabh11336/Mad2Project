@@ -4,7 +4,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
-from .config.config import Config
+from config.config import Config
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
