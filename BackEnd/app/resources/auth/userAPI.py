@@ -12,15 +12,14 @@ from app.models.model import User, TokenBlacklist, db, bcrypt
 
 
 class UserAPI(Resource):
-    def get(self, id=None):
-        if id:
-            user = User.query.filter_by(id=id).first()
-            if not user:
-                return jsonify({"msg": "User not found"}), 404
-            return jsonify(user.serialize())
-        users = User.query.all()
-        return jsonify([e.serialize() for e in users])
-    
+    @jwt_required()
+    def get(self):
+        current_user = get_jwt_identity()
+        user = User.query.filter_by(username=current_user['username']).first()
+        if not user:
+            return jsonify({"msg": "User not found"}), 404
+        return jsonify(user.serialize())
+
 class RegisterAPI(Resource):
     def post(self):
         data = request.get_json()

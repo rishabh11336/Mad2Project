@@ -28,8 +28,7 @@ CORS(
     },
 )
 
-app.add_url_rule('/api/auth/user', view_func=UserAPI.as_view('user_api'), methods=['GET', 'POST'])
-app.add_url_rule('/api/auth/user/<int:id>', view_func=UserAPI.as_view('user_api_id'), methods=['GET', 'POST'])
+app.add_url_rule('/api/auth/user', view_func=UserAPI.as_view('user_api'), methods=['GET'])
 app.add_url_rule('/api/auth/register', view_func=RegisterAPI.as_view('register_api'), methods=['POST'])
 app.add_url_rule('/api/auth/login', view_func=LoginAPI.as_view('login_api'), methods=['POST'])
 app.add_url_rule('/api/auth/logout', view_func=LogoutAPI.as_view('logout_api'), methods=['POST'])
