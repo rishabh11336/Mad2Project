@@ -12,4 +12,11 @@ class User(db.Model):
     role = db.Column(db.String(32), nullable=False, default='user')
     approved = db.Column(db.Boolean, default=True)
 
-
+    def serialize(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "email": self.email,
+            "role": self.role,
+            "approved": self.approved,
+        }
