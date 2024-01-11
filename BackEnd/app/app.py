@@ -6,7 +6,7 @@ from flask_jwt_extended import JWTManager
 
 from .config.config import Config
 from .models.model import db, bcrypt, User
-from .resources.auth.userAPI import UserAPI, RegisterAPI, LoginAPI
+from .resources.auth.userAPI import UserAPI, RegisterAPI, LoginAPI, LogoutAPI
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -32,6 +32,7 @@ app.add_url_rule('/api/auth/user', view_func=UserAPI.as_view('user_api'), method
 app.add_url_rule('/api/auth/user/<int:id>', view_func=UserAPI.as_view('user_api_id'), methods=['GET', 'POST'])
 app.add_url_rule('/api/auth/register', view_func=RegisterAPI.as_view('register_api'), methods=['POST'])
 app.add_url_rule('/api/auth/login', view_func=LoginAPI.as_view('login_api'), methods=['POST'])
+app.add_url_rule('/api/auth/logout', view_func=LogoutAPI.as_view('logout_api'), methods=['POST'])
 
 
 with app.app_context():

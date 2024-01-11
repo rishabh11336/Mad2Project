@@ -51,3 +51,15 @@ class LoginAPI(Resource):
             identity={"username": user.username, "email": user.email, "role": user.role}
         )
         return jsonify({'access_token' : access_token, "message":f"Welcome {user.username}!"}), 200    
+    
+class LogoutAPI(Resource):
+    @jwt_required()
+    def post(self):
+        jti = get_jwt()['jti']
+        try:
+            revoked_token = TokenBlacklist(token=jti)
+            db.session.add(revoked_token)
+            db.session.commit()
+            return jsonify({"msg": "Access token revoked"}), 200
+        except:
+            return jsonify({"msg": "Something went wrong"}), 500
