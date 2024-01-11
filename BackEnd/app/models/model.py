@@ -1,6 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 
 db = SQLAlchemy()
+bcrypt = Bcrypt()
 
 
 class User(db.Model):
@@ -19,4 +21,15 @@ class User(db.Model):
             "email": self.email,
             "role": self.role,
             "approved": self.approved,
+        }
+class TokenBlacklist(db.Model):
+    __tablename__ = 'token_blacklist'
+    id = db.Column(db.Integer, primary_key=True)
+    token = db.Column(db.String(250), unique=True, nullable=False)
+    
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "token": self.token
         }
