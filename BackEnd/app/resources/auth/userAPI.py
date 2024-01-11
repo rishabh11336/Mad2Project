@@ -18,3 +18,19 @@ class UserAPI(Resource):
         users = User.query.all()
         return jsonify([e.serialize() for e in users])
     
+class RegisterAPI(Resource):
+    def post(self):
+        data = request.get_json()
+        user = User.query.filter_by(username=data['username']).first()
+        if user:
+            return jsonify({"msg": "User already exists"}), 400
+        user = User(
+            username=data['username'],
+            password=data['password'],
+            role='user',
+            email=data['email'],
+            approved=True)
+        db.session.add(user)
+        db.session.commit()
+        return jsonify(user.serialize() | {'message':'user registered'}), 201
+    

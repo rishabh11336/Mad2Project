@@ -5,7 +5,7 @@ from flask_cors import CORS
 
 from .config.config import Config
 from .models.model import db, User
-from .resources.auth.userAPI import UserAPI
+from .resources.auth.userAPI import UserAPI, RegisterAPI
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -19,7 +19,7 @@ CORS(app)
 
 app.add_url_rule('/api/auth/user', view_func=UserAPI.as_view('user_api'), methods=['GET', 'POST'])
 app.add_url_rule('/api/auth/user/<int:id>', view_func=UserAPI.as_view('user_api_id'), methods=['GET', 'POST'])
-
+app.add_url_rule('/api/auth/register', view_func=RegisterAPI.as_view('register_api'), methods=['POST'])
 
 
 with app.app_context():
