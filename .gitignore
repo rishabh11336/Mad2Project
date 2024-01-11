@@ -2,3 +2,5 @@ venv/
 BackEnd/app/config/__pycache__/
 BackEnd/app/__pycache__/
 BackEnd/app/models/__pycache__/
+BackEnd/app/resources/__pycache__/
+BackEnd/app/resources/auth/__pycache__/
