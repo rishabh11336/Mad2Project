@@ -9,10 +9,25 @@ from flask_jwt_extended import (
 from flask_jwt_extended.exceptions import JWTDecodeError
 from app.models.model import User, TokenBlacklist, db, bcrypt
 
+def custom_jwt_required():
+    def decorator(fn):
+        @jwt_required()
+        def wrapper(*args, **kwargs):
+            try:
+                jti = get_jwt()["jti"]
+                token_in_blacklist = TokenBlacklist.query.filter_by(token=jti).first()
+                if token_in_blacklist:
+                    return jsonify({"message": "Token has been revoked"}), 401
+                return fn(*args, **kwargs)
+            except JWTDecodeError:
+                return jsonify({"message": "Invalid token"}), 401
 
+        return wrapper
+
+    return decorator
 
 class UserAPI(Resource):
-    @jwt_required()
+    @custom_jwt_required()
     def get(self):
         current_user = get_jwt_identity()
         user = User.query.filter_by(username=current_user['username']).first()
@@ -52,7 +67,7 @@ class LoginAPI(Resource):
         return jsonify({'access_token' : access_token, "message":f"Welcome {user.username}!"}), 200    
     
 class LogoutAPI(Resource):
-    @jwt_required()
+    @custom_jwt_required()
     def post(self):
         jti = get_jwt()['jti']
         try:
