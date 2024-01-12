@@ -41,7 +41,7 @@ class Category(db.Model):
     description = db.Column(db.String(128), nullable=False)
     image = db.Column(db.String(128), nullable=False)
     createdBy = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    dateCreated = db.Column(db.DateTime, nullable=False)
+    dateCreated = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     Products = db.relationship('Product', backref='category', lazy=True)
     approved = db.Column(db.Boolean, default=True)
 
@@ -67,7 +67,7 @@ class Product(db.Model):
     best_before = db.Column(db.DateTime, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
     createdBy = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    dateCreated = db.Column(db.DateTime, nullable=False)
+    dateCreated = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     approved = db.Column(db.Boolean, default=True)
 
     def serialize(self):
