@@ -33,3 +33,55 @@ class TokenBlacklist(db.Model):
             "id": self.id,
             "token": self.token
         }
+    
+class Category(db.Model):
+    __tablename__ = 'category'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(32), unique=True, nullable=False)
+    description = db.Column(db.String(128), nullable=False)
+    image = db.Column(db.String(128), nullable=False)
+    createdBy = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    dateCreated = db.Column(db.DateTime, nullable=False)
+    Products = db.relationship('Product', backref='category', lazy=True)
+    approved = db.Column(db.Boolean, default=True)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "image": self.image,
+            "createdBy": self.createdBy,
+            "dateCreated": self.dateCreated,
+            "approved": self.approved,
+        }
+    
+class Product(db.Model):
+    __tablename__ = 'product'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(32), unique=True, nullable=False)
+    image = db.Column(db.String(128), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    si_unit = db.Column(db.String(32), nullable=False)
+    best_before = db.Column(db.DateTime, nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
+    createdBy = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    dateCreated = db.Column(db.DateTime, nullable=False)
+    approved = db.Column(db.Boolean, default=True)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "image": self.image,
+            "price": self.price,
+            "quantity": self.quantity,
+            "si_unit": self.si_unit,
+            "best_before": self.best_before,
+            "category_id": self.category_id,
+            "createdBy": self.createdBy,
+            "dateCreated": self.dateCreated,
+            "approved": self.approved,
+        }
+
