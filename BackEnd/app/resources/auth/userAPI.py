@@ -62,9 +62,9 @@ class LoginAPI(Resource):
         if not user.approved:
             return jsonify({"msg": "User not approved"}), 401
         access_token = create_access_token(
-            identity={"username": user.username, "email": user.email, "role": user.role}
+            identity={"username": user.username, "email": user.email, "role": user.role, "id": user.id}
         )
-        return jsonify({'access_token' : access_token, "message":f"Welcome {user.username}!"}), 200    
+        return jsonify({'access_token' : access_token, "message":f"Welcome {user.username}!"}), 200
     
 class LogoutAPI(Resource):
     @custom_jwt_required()

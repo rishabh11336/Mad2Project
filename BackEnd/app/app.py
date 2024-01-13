@@ -5,7 +5,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 
 from .config.config import Config
-from .models.model import db, bcrypt, User
+from .models.model import db, bcrypt, User, Product, Category
 from .resources.auth.userAPI import UserAPI, RegisterAPI, LoginAPI, LogoutAPI
 from .resources.Products.productAPI import ProductAPI
 
