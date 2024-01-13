@@ -7,7 +7,8 @@ from flask_jwt_extended import JWTManager
 from .config.config import Config
 from .models.model import db, bcrypt, User, Product, Category
 from .resources.auth.userAPI import UserAPI, RegisterAPI, LoginAPI, LogoutAPI
-from .resources.Products.productAPI import ProductAPI
+from .resources.Products.productAPI import ProductAPI 
+from .resources.Products.categoryAPI import CategoryAPI
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -39,6 +40,9 @@ app.add_url_rule('/api/auth/logout', view_func=LogoutAPI.as_view('logout_api'), 
 app.add_url_rule('/api/products', view_func=ProductAPI.as_view('product_api'), methods=['GET', 'POST'])
 app.add_url_rule('/api/products/<int:id>', view_func=ProductAPI.as_view('product_api_id'), methods=['GET', 'PUT', 'DELETE'])
 
+# Categories
+app.add_url_rule('/api/categories', view_func=CategoryAPI.as_view('category_api'), methods=['GET', 'POST'])
+app.add_url_rule('/api/categories/<int:id>', view_func=CategoryAPI.as_view('category_api_id'), methods=['GET', 'PUT', 'DELETE'])
 
 
 with app.app_context():

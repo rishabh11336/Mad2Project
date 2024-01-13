@@ -59,4 +59,9 @@ class CategoryAPI(Resource):
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
         if not (storeManager or admin):
             return jsonify({"msg": "User not found"}), 404
-        category = Category.query
+        category = Category.query.filter_by(id=id).first()
+        if not category:
+            return jsonify({"msg": "Category not found"}), 404
+        db.session.delete(category)
+        db.session.commit()
+        return jsonify({"msg": "Category deleted"}), 200
