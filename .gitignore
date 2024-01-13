@@ -5,3 +5,4 @@ BackEnd/app/models/__pycache__/
 BackEnd/app/resources/__pycache__/
 BackEnd/app/resources/auth/__pycache__/
 BackEnd/app/resources/Products/__pycache__/
+database.sqlite3
