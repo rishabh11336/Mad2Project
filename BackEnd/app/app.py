@@ -9,6 +9,7 @@ from .models.model import db, bcrypt, User, Product, Category
 from .resources.auth.userAPI import UserAPI, RegisterAPI, LoginAPI, LogoutAPI
 from .resources.Products.productAPI import ProductAPI 
 from .resources.Products.categoryAPI import CategoryAPI
+from .resources.operations.cartAPI import CartAPI
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -44,6 +45,9 @@ app.add_url_rule('/api/products/<int:id>', view_func=ProductAPI.as_view('product
 app.add_url_rule('/api/categories', view_func=CategoryAPI.as_view('category_api'), methods=['GET', 'POST'])
 app.add_url_rule('/api/categories/<int:id>', view_func=CategoryAPI.as_view('category_api_id'), methods=['GET', 'PUT', 'DELETE'])
 
+# Cart
+app.add_url_rule('/api/cart', view_func=CartAPI.as_view('cart_api'), methods=['GET', 'POST'])
+app.add_url_rule('/api/cart/<int:id>', view_func=CartAPI.as_view('cart_api_id'), methods=['PUT', 'DELETE'])
 
 with app.app_context():
     db.create_all()
