@@ -64,7 +64,7 @@ class LoginAPI(Resource):
         access_token = create_access_token(
             identity={"username": user.username, "email": user.email, "role": user.role, "id": user.id}
         )
-        return jsonify({'access_token' : access_token, "message":f"Welcome {user.username}!"}), 200
+        return jsonify(user.serialize() | {'access_token' : access_token}), 200
     
 class LogoutAPI(Resource):
     @custom_jwt_required()
