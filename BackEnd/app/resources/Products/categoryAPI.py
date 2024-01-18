@@ -6,7 +6,7 @@ from app.models.model import User, Category, db
 from app.resources.auth.userAPI import custom_jwt_required
 
 class CategoryAPI(Resource):
-    @custom_jwt_required()
+    #@custom_jwt_required()
     def get(self, id=None):
         if id:
             category = Category.query.filter_by(id=id).first()
@@ -16,7 +16,7 @@ class CategoryAPI(Resource):
         categories = Category.query.filter_by()
         return jsonify([category.serialize() for category in categories])
     
-    @custom_jwt_required()
+    #@custom_jwt_required()
     def post(self):
         data = request.get_json()
         current_user = get_jwt_identity()
@@ -34,7 +34,7 @@ class CategoryAPI(Resource):
         db.session.commit()
         return jsonify(category.serialize() | {'message':'category created'}), 201
     
-    @custom_jwt_required()
+    #@custom_jwt_required()
     def put(self, id):
         data = request.get_json()
         current_user = get_jwt_identity()
@@ -52,7 +52,7 @@ class CategoryAPI(Resource):
         db.session.commit()
         return jsonify(category.serialize() | {'message':'category updated'}), 200
     
-    @custom_jwt_required()
+    #@custom_jwt_required()
     def delete(self, id):
         current_user = get_jwt_identity()
         storeManager = User.query.filter_by(username=current_user['username'], role='storeManager').first()

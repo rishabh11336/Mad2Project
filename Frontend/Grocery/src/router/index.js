@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../views/LoginView.vue'
 
-import AdminMain from '../views/admin/AdminMain.vue'
-import AdminCategoryRequest from '../views/admin/CategoryView.vue'
+import AdminHome from '../views/admin/AdminHome.vue'
+//import AdminCategoryRequest from '../views/admin/CategoryView.vue'
 // import AdminDashboard from '../views/admin/Dashboard.vue'
 // import AdminProductRequest from '../views/admin/Product.vue'
 // import AdminRequests from '../views/admin/AdminRequests.vue'
@@ -16,7 +16,9 @@ import AdminCategoryRequest from '../views/admin/CategoryView.vue'
 // import UserCategory from '../views/user/Category.vue'
 // import UserCart from '../views/user/Cart.vue'
 // import UserSearch from '../views/user/Search.vue'
-// import User from '../views/user/User.vue'
+import UserHome from '../views/user/UserHome.vue'
+import UserProductView from '../views/user/UserProductView.vue'
+import UserCategoryView from '../views/user/UserCategoryView.vue'
 
 const routes = [
   {
@@ -31,12 +33,12 @@ const routes = [
   {
     path: '/admin',
     name: 'Admin',
-    component: AdminMain,
+    component: AdminHome,
     meta: {
       requireLogin: true,
       role: 'admin'
     },
-    children: [
+    // children: [
       // {
       //   path: '',
       //   name: 'AdminDashboard',
@@ -52,18 +54,18 @@ const routes = [
       //   name: 'AdminProductRequest',
       //   component: AdminProductRequest
       // },
-      {
-        path: 'category',
-        name: 'AdminCategoryRequest',
-        component: AdminCategoryRequest
-      }
+      // {
+      //   path: 'category',
+      //   name: 'AdminCategoryRequest',
+      //   component: AdminCategoryRequest
+      // }
       // {
       //   path: 'requests',
       //   name: 'AdminRequests',
       //   component: AdminRequests
       // }
-    ]
-  }
+    // ]
+  },
   // {
   //   // create store_manager
   //   path: '/store_manager',
@@ -84,30 +86,30 @@ const routes = [
   //   ]
 
   // },
-  // {
-  //   path: '/user',
-  //   name: 'User',
-  //   component: User,
-  //   meta: {
-  //     requireLogin: true,
-  //     role: 'user'
-  //   },
-  //   children: [
+  {
+    path: '/user',
+    name: 'UserHome',
+    component: UserHome,
+    meta: {
+      requireLogin: true,
+      role: 'user'
+    },
+    children: [
   //     {
   //       path: '/dashboard',
   //       name: 'UserDashboard',
   //       component: UserDashboard
   //     },
-  //     {
-  //       path: 'product',
-  //       name: 'UserProduct',
-  //       component: UserProduct
-  //     },
-  //     {
-  //       path: 'category',
-  //       name: 'UserCategory',
-  //       component: UserCategory
-  //     },
+      {
+        path: 'products',
+        name: 'UserProductView',
+        component: UserProductView
+      },
+      {
+        path: 'category',
+        name: 'UserCategoryView',
+        component: UserCategoryView
+      },
   //     {
   //       path: 'cart',
   //       name: 'UserCart',
@@ -118,16 +120,16 @@ const routes = [
   //       name: 'UserSearch',
   //       component: UserSearch
   //     }
-  //   ]
-  // },
-  // {
-  //   path: '/logout',
-  //   name: 'Logout',
-  //   beforeEnter: (to, from, next) => {
-  //     localStorage.clear()
-  //     next('/login')
-  //   }
-  // }
+    ]
+  },
+  {
+    path: '/logout',
+    name: 'Logout',
+    beforeEnter: (to, from, next) => {
+      localStorage.clear()
+      next('/login')
+    }
+  }
 ]
 
 const router = createRouter({
