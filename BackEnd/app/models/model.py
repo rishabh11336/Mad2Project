@@ -22,6 +22,7 @@ class User(db.Model):
             "role": self.role,
             "approved": self.approved,
         }
+    
 class TokenBlacklist(db.Model):
     __tablename__ = 'token_blacklist'
     id = db.Column(db.Integer, primary_key=True)
@@ -104,4 +105,40 @@ class Cart(db.Model):
             "quantity": self.quantity,
             "price": self.price,
             "dateCreated": self.dateCreated,
+        }
+    
+class Order(db.Model):
+    __tablename__ = 'order'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    totalprice = db.Column(db.Float, db.ForeignKey('product.price'), nullable=False)
+    dateCreated = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "quantity": self.quantity,
+            "totalprice": self.totalprice,
+            "dateCreated": self.dateCreated,
+        }
+
+class OrderItem(db.Model):
+    __tablename__ = 'order_item'
+    id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+    product_name = db.Column(db.String(32), db.ForeignKey('product.name'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float, db.ForeignKey('product.price'), nullable=False)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "order_id": self.order_id,
+            "product_id": self.product_id,
+            "product_name": self.product_name,
+            "quantity": self.quantity,
+            "price": self.price,
         }

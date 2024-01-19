@@ -14,9 +14,6 @@
                 </p>
               </div>
               <div class="text-end">
-                <p class="card-text">
-                  <strong>Brand:</strong> {{ product.brand }}
-                </p>
                 <p class="card-text text-start">
                   <strong>Quantity:</strong> {{ product.quantity }}
                 </p>
@@ -28,7 +25,7 @@
               <button class="btn btn-outline-secondary btn-sm ms-2" @click="increaseCounter(product)">+</button>
             </div>
             <p class="card-text">
-              <strong>Man-Exp:</strong> {{ product.mfg_date }}-{{ product.exp_date }}
+              <strong>Exp:</strong> {{ product.best_before }}
             </p>
             <div class="d-grid gap-2">
               <button class="btn btn-primary" type="button">Add to cart</button>

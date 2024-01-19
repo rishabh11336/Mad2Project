@@ -46,11 +46,8 @@
                         </p>
                     </div>
                     <div class="text-end">
-                        <p class="card-text">
-                        <strong>Brand:</strong> {{ product.brand }}
-                        </p>
                         <p class="card-text text-start">
-                        <strong>Quantity:</strong> {{ product.quantity }}
+                          <strong>Quantity:</strong> {{ product.quantity }}
                         </p>
                     </div>
                     </div>

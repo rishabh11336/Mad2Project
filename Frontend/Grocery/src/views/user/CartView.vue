@@ -64,6 +64,19 @@
                 <td colspan="3" class="text-right">Total</td>
                 <td>{{ total }}</td>
               </tr>
+              <tr>
+                <td colspan="4" class="text-right">
+                  <div class="d-flex justify-content-end">
+                    <button 
+                    type="button" 
+                    class="btn btn-primary"
+                    @click="placeOrder(products)"
+                    >
+                      Place Order
+                    </button>
+                  </div>
+                </td>
+              </tr>
             </tfoot>
           </table>
         </div>
@@ -111,12 +124,20 @@ export default {
       this.calculateTotal();
     }
   },
-    removeProduct(product) {
+    async removeProduct(product) {
       const index = this.products.indexOf(product);
       if (index !== -1) {
         this.products.splice(index, 1);
+        const response = await this.$axios.delete('/api/cart/'+product.id);
         this.calculateTotal();
       }
+    },
+    async placeOrder(products) {
+      const response = await this.$axios.post('/api/orders', {
+        products: products,
+        total: this.total
+      });
+      this.$router.push('/orders');
     },
     calculateTotal() {
       this.total = this.products.reduce((acc, product) => acc + product.price * product.quantity, 0);
