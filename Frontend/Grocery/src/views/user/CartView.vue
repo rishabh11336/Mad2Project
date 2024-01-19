@@ -1,60 +1,118 @@
 <template>
-    <div class="container my-4">
-      <div class="text-bg-info p-2" style="font-family: Algerian;">
-        <h1><center><u>SHOPPING CART</u></center></h1>
-      </div>
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Product</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Price</th>
-              <th scope="col">Category</th>
-              <th scope="col">Image</th>
-              <th scope="col">Brand</th>
-              <th scope="col">Total Price</th>
-              <th scope="col">Remove from Cart</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in product_list" :key="item[7]">
-              <td>{{ item[0] }}</td>
-              <td>{{ item[1] }}</td>
-              <td>{{ item[2] }}</td>
-              <td>{{ item[3] }}</td>
-              <td><img :src="item[4]" height="100px"></td>
-              <td>{{ item[5] }}</td>
-              <td>{{ item[6] }}</td>
-              <td>
-                <center>
-                  <button @click="removeFromCart(item[7])" class="btn btn-danger btn-sm">Remove</button>
-                </center>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="text-center">
-        <form @submit.prevent="applyPromocode">
-          <div class="container w-25 p-3 d-flex flex-row">
-            <input v-model="promocode" class="form-control me-2" type="text" placeholder="PROMOCODE">
-            <button type="submit" class="btn btn-dark">Apply</button>
-          </div>
-        </form>
-        <div v-if="messages.length > 0">
-          <b v-for="message in messages" :key="message">{{ message }}</b>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h3>Cart</h3>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(product, index) in products" :key="index">
+                <td>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <img :src="product.image" style="width: 100px;" />
+                    </div>
+                    <div class="col-md-8">
+                      <p>{{ product.product_name }}</p>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <button
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        @click="decreaseCounter(product)"
+                      >
+                        -
+                      </button>
+                      <span class="mx-1">{{ product.quantity }}</span>
+                      <button
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        @click="increaseCounter(product)"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <div class="col-md-8">
+                      <button
+                        type="button"
+                        class="btn btn-danger btn-sm"
+                        @click="removeProduct(product)"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.price * product.quantity }}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3" class="text-right">Total</td>
+                <td>{{ total }}</td>
+              </tr>
+            </tfoot>
+          </table>
         </div>
-        <h4>Total: ₹{{ cartTotal }}</h4>
-        <button @click="createOrder" class="btn btn-success btn-lg">Buy Now</button>
       </div>
     </div>
-  </template>
+  </div>
+</template>
 
-  <style scoped>
-    
-  </style>
-  
-  <script>
- 
-  </script>
+<script>
+export default {
+  name: 'ProductsView',
+  data() {
+    return {
+      products: [],
+      total: 0,
+    };
+  },
+  async created() {
+    try {
+      const response = await this.$axios.get('/api/cart');
+      this.products = response.data;
+      this.calculateTotal();
+      // write alert here with expanded response.data
+      alert(JSON.stringify(response.data, null, 2));
+    } catch (error) {
+      console.error('Error fetching cart data:', error);
+    }
+  },
+  methods: {
+    increaseCounter(product) {
+      product.quantity++;
+      this.calculateTotal();
+    },
+    decreaseCounter(product) {
+      if (product.quantity > 1) {
+        product.quantity--;
+        this.calculateTotal();
+      }
+    },
+    removeProduct(product) {
+      const index = this.products.indexOf(product);
+      if (index !== -1) {
+        this.products.splice(index, 1);
+        this.calculateTotal();
+      }
+    },
+    calculateTotal() {
+      this.total = this.products.reduce((acc, product) => acc + product.price * product.quantity, 0);
+    },
+  },
+};
+</script>

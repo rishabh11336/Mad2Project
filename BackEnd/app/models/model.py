@@ -100,6 +100,8 @@ class Cart(db.Model):
             "id": self.id,
             "user_id": self.user_id,
             "product_id": self.product_id,
+            "product_name": self.product_name,
             "quantity": self.quantity,
+            "price": self.price,
             "dateCreated": self.dateCreated,
         }

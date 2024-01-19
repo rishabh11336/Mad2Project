@@ -47,7 +47,7 @@ app.add_url_rule('/api/categories/<int:id>', view_func=CategoryAPI.as_view('cate
 
 # Cart
 app.add_url_rule('/api/cart', view_func=CartAPI.as_view('cart_api'), methods=['GET', 'POST'])
-app.add_url_rule('/api/cart/<int:id>', view_func=CartAPI.as_view('cart_api_id'), methods=['PUT', 'DELETE'])
+app.add_url_rule('/api/cart/<int:id>', view_func=CartAPI.as_view('cart_api_id'), methods=['DELETE'])
 
 with app.app_context():
     db.create_all()

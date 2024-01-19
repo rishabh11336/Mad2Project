@@ -17,7 +17,7 @@
                         <router-link to="/user/category" class="nav-link">Categories</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="#" class="nav-link">Requests</router-link>
+                        <router-link to="/user/cart" class="nav-link">Cart</router-link>
                     </li>
                 </ul>
                 
