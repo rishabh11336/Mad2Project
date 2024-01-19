@@ -86,23 +86,31 @@ export default {
       const response = await this.$axios.get('/api/cart');
       this.products = response.data;
       this.calculateTotal();
-      // write alert here with expanded response.data
-      alert(JSON.stringify(response.data, null, 2));
     } catch (error) {
       console.error('Error fetching cart data:', error);
     }
   },
   methods: {
-    increaseCounter(product) {
-      product.quantity++;
+    async increaseCounter(product) {
+    product.quantity++;
+    const response = await this.$axios.post('/api/cart', {
+      product_id: product.product_id,
+      quantity: product.quantity,
+      price: product.price
+    });
+    this.calculateTotal();
+  },
+  async decreaseCounter(product) {
+    if (product.quantity > 1) {
+      product.quantity--;
+      const response = await this.$axios.post('/api/cart', {
+        product_id: product.product_id,
+        quantity: product.quantity,
+        price: product.price
+      });
       this.calculateTotal();
-    },
-    decreaseCounter(product) {
-      if (product.quantity > 1) {
-        product.quantity--;
-        this.calculateTotal();
-      }
-    },
+    }
+  },
     removeProduct(product) {
       const index = this.products.indexOf(product);
       if (index !== -1) {

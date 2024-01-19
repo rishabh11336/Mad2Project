@@ -24,7 +24,7 @@ class CartAPI(Resource):
             return jsonify({"msg": "User not found"}), 404
         check = Cart.query.filter_by(user_id=current_user['id'], product_id=data['product_id']).first()
         if check:
-            check.quantity += data['quantity']
+            check.quantity = data['quantity']
             db.session.commit()
             return jsonify(check.serialize() | {'message':'cart updated'}), 200
         cart = Cart(
