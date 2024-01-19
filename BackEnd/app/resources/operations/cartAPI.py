@@ -39,23 +39,6 @@ class CartAPI(Resource):
         return jsonify(cart.serialize() | {'message':'cart created'}), 201
     
     @custom_jwt_required()
-    def put(self, id):
-        data = request.get_json()
-        current_user = get_jwt_identity()
-        user = User.query.filter_by(username=current_user['username']).first()
-        if not user:
-            return jsonify({"msg": "User not found"}), 404
-        cart = Cart.query.filter_by(id=id).first()
-        if not cart:
-            return jsonify({"msg": "Cart not found"}), 404
-        cart.user_id = current_user['id']
-        cart.product_id = data['product_id']
-        cart.quantity = data['quantity']
-        cart.price = data['price']
-        db.session.commit()
-        return jsonify(cart.serialize() | {'message':'cart updated'}), 200
-    
-    @custom_jwt_required()
     def delete(self, id):
         current_user = get_jwt_identity()
         user = User.query.filter_by(username=current_user['username']).first()

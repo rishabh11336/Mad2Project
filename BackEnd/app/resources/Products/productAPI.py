@@ -8,7 +8,7 @@ from app.resources.auth.userAPI import custom_jwt_required
 
 
 class ProductAPI(Resource):
-    #@custom_jwt_required()
+    @custom_jwt_required()
     def get(self, id=None):
         if id:
             product = Product.query.filter_by(id=id).first()
@@ -18,7 +18,7 @@ class ProductAPI(Resource):
         products = Product.query.filter_by()
         return jsonify([product.serialize() for product in products])
     
-    #@custom_jwt_required()
+    @custom_jwt_required()
     def post(self):
         data = request.get_json()
         current_user = get_jwt_identity()
@@ -42,7 +42,7 @@ class ProductAPI(Resource):
         db.session.commit()
         return jsonify(product.serialize() | {'message':'product created'}), 201
     
-    #@custom_jwt_required()
+    @custom_jwt_required()
     def put(self, id):
         data = request.get_json()
         current_user = get_jwt_identity()
@@ -66,7 +66,7 @@ class ProductAPI(Resource):
         db.session.commit()
         return jsonify(product.serialize() | {'message':'product updated'}), 201
     
-    #@custom_jwt_required()
+    @custom_jwt_required()
     def delete(self, id):
         current_user = get_jwt_identity()
         storeManager = User.query.filter_by(username=current_user['username'], role='storeManager').first()

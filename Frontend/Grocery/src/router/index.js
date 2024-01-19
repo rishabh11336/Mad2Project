@@ -19,6 +19,7 @@ import AdminHome from '../views/admin/AdminHome.vue'
 import UserHome from '../views/user/UserHome.vue'
 import UserProductView from '../views/user/UserProductView.vue'
 import UserCategoryView from '../views/user/UserCategoryView.vue'
+import CartView from '../views/user/CartView.vue'
 
 const routes = [
   {
@@ -109,6 +110,11 @@ const routes = [
         path: 'category',
         name: 'UserCategoryView',
         component: UserCategoryView
+      },
+      {
+        path: 'cart',
+        name: 'CartView',
+        component: CartView
       },
   //     {
   //       path: 'cart',
