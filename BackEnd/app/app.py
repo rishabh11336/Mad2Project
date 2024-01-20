@@ -10,6 +10,7 @@ from .resources.auth.userAPI import UserAPI, RegisterAPI, LoginAPI, LogoutAPI
 from .resources.Products.productAPI import ProductAPI 
 from .resources.Products.categoryAPI import CategoryAPI
 from .resources.operations.cartAPI import CartAPI
+from .resources.operations.orderAPI import OrderAPI
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -19,6 +20,7 @@ app.config.from_object(Config)
 db.init_app(app)
 bcrypt.init_app(app)
 jwt = JWTManager(app)
+
 CORS(app)
 CORS(
     app,
@@ -48,6 +50,9 @@ app.add_url_rule('/api/categories/<int:id>', view_func=CategoryAPI.as_view('cate
 # Cart
 app.add_url_rule('/api/cart', view_func=CartAPI.as_view('cart_api'), methods=['GET', 'POST'])
 app.add_url_rule('/api/cart/<int:id>', view_func=CartAPI.as_view('cart_api_id'), methods=['DELETE'])
+
+# Order
+app.add_url_rule('/api/order', view_func=OrderAPI.as_view('order_api'), methods=['POST'])
 
 with app.app_context():
     db.create_all()

@@ -127,6 +127,7 @@ class Order(db.Model):
 class OrderItem(db.Model):
     __tablename__ = 'order_item'
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
     product_name = db.Column(db.String(32), db.ForeignKey('product.name'), nullable=False)
@@ -136,6 +137,7 @@ class OrderItem(db.Model):
     def serialize(self):
         return {
             "id": self.id,
+            "user_id": self.user_id,
             "order_id": self.order_id,
             "product_id": self.product_id,
             "product_name": self.product_name,

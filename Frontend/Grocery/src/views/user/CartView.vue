@@ -137,7 +137,7 @@ export default {
         products: products,
         total: this.total
       });
-      this.$router.push('/orders');
+      this.$router.push('/user');
     },
     calculateTotal() {
       this.total = this.products.reduce((acc, product) => acc + product.price * product.quantity, 0);
