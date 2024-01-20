@@ -28,7 +28,7 @@
               <strong>Exp:</strong> {{ product.best_before }}
             </p>
             <div class="d-grid gap-2">
-              <button class="btn btn-primary" type="button">Add to cart</button>
+              <button class="btn btn-primary" @click="addtocart(product)">Add to cart</button>
             </div>
           </div>
         </div>
@@ -90,6 +90,22 @@ export default {
       if (product.counter > 0) {
         product.counter--;
         product.quantity++;
+      }
+    },
+    addtocart(product) {
+      if (product.counter > 0) {
+        (async () => {
+          const response = await this.$axios.post('/api/cart', {
+            product_id: product.id,
+            product_name: product.name,
+            quantity: product.counter,
+            price: product.price
+          });
+          alert("Added to cart")
+        })();
+        // alert("Added to cart")
+        product.counter = 0;
+        product.quantity = product.quantity - product.counter;
       }
     },
   },

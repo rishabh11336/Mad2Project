@@ -2,7 +2,7 @@ from flask_restful import Resource
 from flask import request, jsonify
 from flask_jwt_extended import get_jwt_identity
 
-from app.models.model import User, Cart, Order, OrderItem, db
+from app.models.model import User, Cart, Order, Product, OrderItem, db
 from app.resources.auth.userAPI import custom_jwt_required
 
 class OrderAPI(Resource):
@@ -22,22 +22,33 @@ class OrderAPI(Resource):
         user = User.query.filter_by(username=current_user['username']).first()
         if not user:
             return jsonify({"msg": "User not found"}), 404
-        Cart = Cart.query.filter_by(user_id=current_user['id']).first()
-        order = Order(
+        cart = Cart.query.filter_by(user_id=current_user['id']).all()
+        if not cart:
+            return jsonify({"msg": "Cart not found"}), 404
+        new_order = Order(
             user_id=current_user['id'],
-            total_price=data['total_price']
+            quantity=sum([item["quantity"] for item in data['products']]),
+            totalprice=data['total']
             )
-        db.session.add(order)
+        db.session.add(new_order)
         db.session.flush()
-        order_item = OrderItem(
-            order_id=order.id,
-            product_id=data['product_id'],
-            product_name=data['product_name'],
-            quantity=data['quantity'],
-            price=data['price']
-            )
-        db.session.add(order_item)
+        order = Order.query.filter_by(user_id=current_user['id']).order_by(Order.id.desc()).first()
+        for item in cart:
+            orderItem = OrderItem(
+                user_id=current_user['id'],
+                order_id=order.id,
+                product_id=item.product_id,
+                product_name=item.product_name,
+                quantity=item.quantity,
+                price=item.price
+                )
+            update_product = Product.query.filter_by(id=item.product_id).first()
+            update_product.quantity = update_product.quantity - item.quantity
+            db.session.add(orderItem)
+            db.session.delete(item)
+            db.session.flush()
         db.session.commit()
+        return jsonify(order.serialize() | {'message':'order created'}), 201
         
 
 

@@ -133,7 +133,7 @@ export default {
       }
     },
     async placeOrder(products) {
-      const response = await this.$axios.post('/api/orders', {
+      const response = await this.$axios.post('/api/order', {
         products: products,
         total: this.total
       });
