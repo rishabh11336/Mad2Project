@@ -70,6 +70,7 @@ export default {
                 this.saveUserInfo(response.data);
                 this.redirectBasedOnRole(response.data.role);
             } catch (error) {
+                alert(error.response.data.message)
                 console.error('Login failed:', error);
             }
         },
