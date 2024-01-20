@@ -18,8 +18,29 @@
       </div>
     </div>
 </template>
-  
-  <style scoped>
+
+
+<script>
+export default {
+  name: 'CategoryView',
+  data() {
+    return {
+      categories: []
+    }
+  },
+  beforeCreate() {
+    // iife - immediately invoked function expression
+    (async () => {
+      const response = await this.$axios.get('/api/categories')
+      this.categories = response.data
+    })()
+  }
+}
+</script>
+
+
+
+<style scoped>
 /* Add your custom styles here */
     .card {
       transition: transform 0.2s; /* Add a smooth transition effect on hover */
@@ -34,24 +55,7 @@
     .card-text strong {
       color: #333;
     }
-  </style>
+</style>
   
   
   
-  <script>
-    export default {
-      name: 'CategoryView',
-      data() {
-        return {
-          categories: []
-        }
-      },
-      beforeCreate() {
-        // iife - immediately invoked function expression
-        (async () => {
-          const response = await this.$axios.get('/api/categories')
-          this.categories = response.data
-        })()
-      }
-    }
-  </script>

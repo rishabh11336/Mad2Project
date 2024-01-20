@@ -2,10 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../views/LoginView.vue'
 
 import AdminHome from '../views/admin/AdminHome.vue'
-//import AdminCategoryRequest from '../views/admin/CategoryView.vue'
+import AdminCategoryRequest from '../views/admin/CategoryView.vue'
 // import AdminDashboard from '../views/admin/Dashboard.vue'
-// import AdminProductRequest from '../views/admin/Product.vue'
-// import AdminRequests from '../views/admin/AdminRequests.vue'
+import AdminProductRequest from '../views/admin/ProductView.vue'
+import AdminRequests from '../views/admin/AdminRequests.vue'
 
 // import SM_Main from '../views/store_manager/SM_Main.vue'
 // import SM_Category from '../views/store_manager/Category.vue'
@@ -39,7 +39,7 @@ const routes = [
       requireLogin: true,
       role: 'admin'
     },
-    // children: [
+    children: [
       // {
       //   path: '',
       //   name: 'AdminDashboard',
@@ -50,22 +50,22 @@ const routes = [
       //   name: 'AdminDashboard',
       //   component: AdminDashboard
       // },
-      // {
-      //   path: 'product',
-      //   name: 'AdminProductRequest',
-      //   component: AdminProductRequest
-      // },
-      // {
-      //   path: 'category',
-      //   name: 'AdminCategoryRequest',
-      //   component: AdminCategoryRequest
-      // }
-      // {
-      //   path: 'requests',
-      //   name: 'AdminRequests',
-      //   component: AdminRequests
-      // }
-    // ]
+      {
+        path: 'products',
+        name: 'AdminProductRequest',
+        component: AdminProductRequest
+      },
+      {
+        path: 'categories',
+        name: 'AdminCategoryRequest',
+        component: AdminCategoryRequest
+      },
+      {
+        path: 'requests',
+        name: 'AdminRequests',
+        component: AdminRequests
+      }
+    ]
   },
   // {
   //   // create store_manager
