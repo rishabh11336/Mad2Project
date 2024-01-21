@@ -44,7 +44,7 @@ class RegisterAPI(Resource):
         user = User(
             username=data['username'],
             password=bcrypt.generate_password_hash(data['password']).decode('utf-8'),
-            role='user',
+            role=data['role'],
             email=data['email'],
             approved=True)
         db.session.add(user)

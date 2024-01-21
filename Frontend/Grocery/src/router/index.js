@@ -10,6 +10,8 @@ import AdminRequests from '../views/admin/AdminRequests.vue'
 // import AdminProductRequest from '../views/admin/Product.vue'
 // import AdminRequests from '../views/admin/AdminRequests.vue'
 
+import StoreManagerHome from '../views/store_manager/StoreManagerHome.vue'
+
 // import SM_Main from '../views/store_manager/SM_Main.vue'
 // import SM_Category from '../views/store_manager/Category.vue'
 // import SM_Product from '../views/store_manager/Product.vue'
@@ -65,12 +67,17 @@ const routes = [
       }
     ]
   },
-  // {
-  //   // create store_manager
-  //   path: '/store_manager',
-  //   name: 'StoreManager',
-  //   component: SM_Main,
-  //   children: [
+
+  {
+    // create store_manager
+    path: '/store_manager',
+    name: 'StoreManagerHome',
+    component: StoreManagerHome,
+    meta: {
+      requireLogin: true,
+      role: 'storemanager'
+    }
+    // children: [
 
   //     {
   //       path: 'product',
@@ -84,7 +91,8 @@ const routes = [
   //     }
   //   ]
 
-  // },
+  },
+
   {
     path: '/user',
     name: 'UserHome',

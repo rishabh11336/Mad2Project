@@ -102,7 +102,7 @@ export default {
             } else if (role === 'user') {
                 this.$router.push('/user');
             } else if (role === 'storemanager') {
-                this.$router.push('/storemanager');
+                this.$router.push('/store_manager');
             }
         }
     }
