@@ -11,6 +11,7 @@ import AdminRequests from '../views/admin/AdminRequests.vue'
 // import AdminRequests from '../views/admin/AdminRequests.vue'
 
 import StoreManagerHome from '../views/store_manager/StoreManagerHome.vue'
+import StoreManagerProduct from '../views/store_manager/StoreManagerProduct.vue'
 
 // import SM_Main from '../views/store_manager/SM_Main.vue'
 // import SM_Category from '../views/store_manager/Category.vue'
@@ -76,20 +77,20 @@ const routes = [
     meta: {
       requireLogin: true,
       role: 'storemanager'
-    }
-    // children: [
+    },
+    children: [
 
-  //     {
-  //       path: 'product',
-  //       name: 'StoreManagerProduct',
-  //       component: SM_Product
-  //     },
+      {
+        path: 'product',
+        name: 'StoreManagerProduct',
+        component: StoreManagerProduct
+      },
   //     {
   //       path: 'category',
   //       name: 'StoreManagerCategory',
   //       component: SM_Category
   //     }
-  //   ]
+    ]
 
   },
 

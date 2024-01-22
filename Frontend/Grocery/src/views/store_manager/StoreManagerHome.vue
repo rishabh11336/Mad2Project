@@ -9,13 +9,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <router-link to="/user/products" class="nav-link">Products</router-link>
+                        <router-link to="/store_manager/product" class="nav-link">Products</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/user/category" class="nav-link">Categories</router-link>
+                        <router-link to="/store_manager/category" class="nav-link">Categories</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/user/cart" class="nav-link">Cart</router-link>
+                        <router-link to="/store_manager/request" class="nav-link">Requests</router-link>
                     </li>
                 </ul>
                 
