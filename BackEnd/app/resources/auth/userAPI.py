@@ -39,14 +39,15 @@ class RegisterAPI(Resource):
     def post(self):
         data = request.get_json()
         user = User.query.filter_by(username=data['username']).first()
+        role = data['role']
         if user:
             return jsonify({"msg": "User already exists"}), 400
         user = User(
             username=data['username'],
             password=bcrypt.generate_password_hash(data['password']).decode('utf-8'),
-            role=data['role'],
+            role=role,
             email=data['email'],
-            approved=True)
+            approved=True if role != 'storemanager' else False)
         db.session.add(user)
         db.session.commit()
         return jsonify(user.serialize() | {'message':'user registered'}), 201

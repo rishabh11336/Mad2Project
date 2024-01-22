@@ -12,6 +12,7 @@ import AdminRequests from '../views/admin/AdminRequests.vue'
 
 import StoreManagerHome from '../views/store_manager/StoreManagerHome.vue'
 import StoreManagerProduct from '../views/store_manager/StoreManagerProduct.vue'
+import StoreManagerCategory from '../views/store_manager/StoreManagerCategory.vue'
 
 // import SM_Main from '../views/store_manager/SM_Main.vue'
 // import SM_Category from '../views/store_manager/Category.vue'
@@ -85,11 +86,11 @@ const routes = [
         name: 'StoreManagerProduct',
         component: StoreManagerProduct
       },
-  //     {
-  //       path: 'category',
-  //       name: 'StoreManagerCategory',
-  //       component: SM_Category
-  //     }
+      {
+        path: 'category',
+        name: 'StoreManagerCategory',
+        component: StoreManagerCategory
+      }
     ]
 
   },

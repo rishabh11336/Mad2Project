@@ -16,19 +16,19 @@ class ProductAPI(Resource):
                 return jsonify({"msg": "Product not found"}), 404
             return jsonify(product.serialize())
         products = Product.query.filter_by()
-        return jsonify([product.serialize() for product in products])
+        return jsonify([product.serialize() for product in products if product.approved])
     
     @custom_jwt_required()
     def post(self):
         data = request.get_json()
         current_user = get_jwt_identity()
-        storeManager = User.query.filter_by(username=current_user['username'], role='storeManager').first()
+        storeManager = User.query.filter_by(username=current_user['username'], role='storemanager').first()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
         if not (storeManager or admin):
             return jsonify({"msg": "User not found"}), 404
         best_before_str = data['best_before']
-        best_before_date = datetime.strptime(best_before_str, "%a, %d %b %Y %H:%M:%S %Z")
-        # best_before_date = datetime.strptime(best_before_str, "%Y-%m-%d")
+        # best_before_date = datetime.strptime(best_before_str, "%a, %d %b %Y %H:%M:%S %Z")
+        best_before_date = datetime.strptime(best_before_str, "%Y-%m-%d")
         product = Product(
             name=data['name'],
             image=data['image'],
@@ -38,7 +38,7 @@ class ProductAPI(Resource):
             best_before=best_before_date,
             category_id=data['category_id'],
             createdBy=current_user['id'],
-            approved=True)
+            approved=True if admin else False)
         db.session.add(product)
         db.session.commit()
         return jsonify(product.serialize() | {'message':'product created'}), 201
@@ -50,7 +50,7 @@ class ProductAPI(Resource):
         best_before_str = data['best_before']
         # best_before_date = datetime.strptime(best_before_str, "%a, %d %b %Y %H:%M:%S %Z")
         best_before_date = datetime.strptime(best_before_str, "%Y-%m-%d")
-        storeManager = User.query.filter_by(username=current_user['username'], role='storeManager').first()
+        storeManager = User.query.filter_by(username=current_user['username'], role='storemanager').first()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
         if not (storeManager or admin):
             return jsonify({"msg": "User not found"}), 404
@@ -65,13 +65,15 @@ class ProductAPI(Resource):
         product.best_before = best_before_date
         product.category_id = data['category_id']
         product.createdBy = current_user['id']
+        if not admin:
+            product.approved = False
         db.session.commit()
         return jsonify(product.serialize() | {'message':'product updated'}), 201
     
     @custom_jwt_required()
     def delete(self, id):
         current_user = get_jwt_identity()
-        storeManager = User.query.filter_by(username=current_user['username'], role='storeManager').first()
+        storeManager = User.query.filter_by(username=current_user['username'], role='storemanager').first()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
         if not (storeManager or admin):
             return jsonify({"msg": "User not found"}), 404

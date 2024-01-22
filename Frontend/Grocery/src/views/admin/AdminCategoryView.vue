@@ -3,7 +3,7 @@
       <!-- Button to show/hide category form -->
       <div class="d-flex justify-content-end mb-3 my-2 mx-2">
         <button @click="toggleForm" class="btn btn-primary">
-          {{ showForm ? 'Hide Form' : 'Add New Product' }}
+          {{ showForm ? 'Hide Form' : 'Add New Category' }}
         </button>
       </div>
 
@@ -23,8 +23,11 @@
             <label for="categoryImage">Category Image URL:</label>
             <input v-model="formData.image" type="text" class="form-control" id="categoryImage" required>
           </div>
-          <button type="submit" class="btn btn-success">
+          <button type="submit" class="btn btn-success my-2 mx-2">
             {{ editMode ? 'Update Category' : 'Add Category' }}
+          </button>
+          <button @click="toggleForm" class="btn btn-primary">
+          {{ showForm ? 'Hide Form' : 'Add New Category' }}
           </button>
         </form>
       </div>

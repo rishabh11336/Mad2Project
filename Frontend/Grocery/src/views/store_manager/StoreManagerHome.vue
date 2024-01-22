@@ -1,7 +1,7 @@
 <template>
     <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <router-link to="/user" class="navbar-brand"><img src="@/assets/logo.svg" alt="Grocery" height="40" /> Home</router-link>
+            <router-link to="/store_manager" class="navbar-brand"><img src="@/assets/logo.svg" alt="Grocery" height="40" /> Home</router-link>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

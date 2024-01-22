@@ -14,13 +14,14 @@ class CategoryAPI(Resource):
                 return jsonify({"msg": "Category not found"}), 404
             return jsonify(category.serialize())
         categories = Category.query.filter_by()
+        print([category.serialize() for category in categories if category.approved])
         return jsonify([category.serialize() for category in categories])
     
     @custom_jwt_required()
     def post(self):
         data = request.get_json()
         current_user = get_jwt_identity()
-        storeManager = User.query.filter_by(username=current_user['username'], role='storeManager').first()
+        storeManager = User.query.filter_by(username=current_user['username'], role='storemanager').first()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
         if not (storeManager or admin):
             return jsonify({"msg": "User not found"}), 404
@@ -29,7 +30,7 @@ class CategoryAPI(Resource):
             description=data['description'],
             image=data['image'],
             createdBy=current_user['id'],
-            approved=True)
+            approved=True if admin else False)
         db.session.add(category)
         db.session.commit()
         return jsonify(category.serialize() | {'message':'category created'}), 201
@@ -38,7 +39,7 @@ class CategoryAPI(Resource):
     def put(self, id):
         data = request.get_json()
         current_user = get_jwt_identity()
-        storeManager = User.query.filter_by(username=current_user['username'], role='storeManager').first()
+        storeManager = User.query.filter_by(username=current_user['username'], role='storemanager').first()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
         if not (storeManager or admin):
             return jsonify({"msg": "User not found"}), 404
@@ -55,7 +56,7 @@ class CategoryAPI(Resource):
     @custom_jwt_required()
     def delete(self, id):
         current_user = get_jwt_identity()
-        storeManager = User.query.filter_by(username=current_user['username'], role='storeManager').first()
+        storeManager = User.query.filter_by(username=current_user['username'], role='storemanager').first()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
         if not (storeManager or admin):
             return jsonify({"msg": "User not found"}), 404
