@@ -94,7 +94,7 @@
 <script>
 
   export default {
-    name: 'HomeView',
+    name: 'UserHomeView',
     data() {
       return {
         products: [],

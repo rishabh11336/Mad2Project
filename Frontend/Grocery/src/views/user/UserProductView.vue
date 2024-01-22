@@ -42,7 +42,7 @@
 
 <script>
 export default {
-  name: 'ProductsView',
+  name: 'UserProductsView',
   data() {
     return {
       products: [],

@@ -1,11 +1,11 @@
 <template>
     <div>
-      <h1 class="text-center mb-4">Admin Products</h1>
-
       <!-- Button to show/hide product form -->
-      <button @click="toggleForm" class="btn btn-primary mb-3">
-        {{ showForm ? 'Hide Form' : 'Add New Product' }}
-      </button>
+      <div class="d-flex justify-content-end mb-3 mx-2 my-2">
+        <button @click="toggleForm" class="btn btn-primary">
+          {{ showForm ? 'Hide Form' : 'Add New Product' }}
+        </button>
+      </div>
 
       <!-- Product Form -->
       <div v-if="showForm" class="mb-3">
@@ -16,10 +16,6 @@
             <input v-model="formData.name" type="text" class="form-control" id="productName" required>
           </div>
           <div class="form-group">
-            <label for="productDescription">Product Description:</label>
-            <textarea v-model="formData.description" class="form-control" id="productDescription" rows="3" required></textarea>
-          </div>
-          <div class="form-group">
             <label for="productImage">Product Image URL:</label>
             <input v-model="formData.image" type="text" class="form-control" id="productImage" required>
           </div>
@@ -28,16 +24,20 @@
             <input v-model="formData.price" type="number" class="form-control" id="productPrice" required>
           </div>
           <div class="form-group">
+            <label for="productsi_unit">SI Unit:</label>
+            <input v-model="formData.si_unit" type="text" class="form-control" id="productsi_unit" required>
+          </div>
+          <div class="form-group">
             <label for="productQuantity">Quantity:</label>
             <input v-model="formData.quantity" type="number" class="form-control" id="productQuantity" required>
           </div>
           <div class="form-group">
-            <label for="productMfgDate">Manufacturing Date:</label>
-            <input v-model="formData.mfg_date" type="date" class="form-control" id="productMfgDate" required>
+            <label for="productQuantity">category_id:</label>
+            <input v-model="formData.category_id" type="number" class="form-control" id="productcategory_id" required>
           </div>
           <div class="form-group">
-            <label for="productExpDate">Expiry Date:</label>
-            <input v-model="formData.exp_date" type="date" class="form-control" id="productExpDate" required>
+            <label for="productExpDate">best_before:</label>
+            <input v-model="formData.best_before" type="date" class="form-control" id="productbest_before" required>
           </div>
           <button type="submit" class="btn btn-success">
             {{ editMode ? 'Update Product' : 'Add Product' }}
@@ -53,18 +53,13 @@
             <div class="card-body">
               <h5 class="card-title">{{ product.name }}</h5>
               <p class="card-text">
-                <strong>Price:</strong> ₹{{ product.price }}/{{ product.unit }}
+                <strong>Price:</strong> ₹{{ product.price }}/{{ product.si_unit }}
               </p>
               <p class="card-text text-start">
                 <strong>Quantity:</strong> {{ product.quantity }}
               </p>
-              <div class="d-flex justify-content-end align-items-center">
-                <button class="btn btn-outline-secondary btn-sm me-2" @click="decreaseCounter(product)">-</button>
-                <span>{{ product.counter }}</span>
-                <button class="btn btn-outline-secondary btn-sm ms-2" @click="increaseCounter(product)">+</button>
-              </div>
               <p class="card-text">
-                <strong>Man-Exp:</strong> {{ product.mfg_date }}-{{ product.exp_date }}
+                <strong>best_before:</strong>{{ product.best_before }}
               </p>
               <div class="d-grid gap-2">
                 <button class="btn btn-info" @click="editProduct(product)">Edit</button>
@@ -87,12 +82,12 @@
         formData: {
           id: null,
           name: '',
-          description: '',
           image: '',
           price: 0,
           quantity: 0,
-          mfg_date: '',
-          exp_date: '',
+          si_unit: '',
+          best_before: '',
+          category_id: '',
         },
         products: [],
       };
@@ -153,12 +148,12 @@
         // Set form data for editing
         this.formData.id = product.id;
         this.formData.name = product.name;
-        this.formData.description = product.description;
         this.formData.image = product.image;
         this.formData.price = product.price;
         this.formData.quantity = product.quantity;
-        this.formData.mfg_date = product.mfg_date;
-        this.formData.exp_date = product.exp_date;
+        this.formData.best_before = product.best_before;
+        this.formData.si_unit = product.si_unit;
+        this.formData.category_id = product.category_id;
   
         // Set edit mode to true
         this.editMode = true;
@@ -177,23 +172,13 @@
         // Reset form data and edit mode
         this.formData.id = null;
         this.formData.name = '';
-        this.formData.description = '';
         this.formData.image = '';
         this.formData.price = 0;
         this.formData.quantity = 0;
-        this.formData.mfg_date = '';
-        this.formData.exp_date = '';
+        this.formData.best_before = '';
+        this.formData.si_unit = '';
+        this.formData.category_id = '';
         this.editMode = false;
-      },
-      increaseCounter(product) {
-        product.counter++;
-        product.quantity--;
-      },
-      decreaseCounter(product) {
-        if (product.counter > 0) {
-          product.counter--;
-          product.quantity++;
-        }
       },
     },
   };

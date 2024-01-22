@@ -1,11 +1,11 @@
 <template>
 <div>
-      <h1 class="text-center mb-4">Admin Categories</h1>
-
       <!-- Button to show/hide category form -->
-      <button @click="toggleForm" class="btn btn-primary mb-3">
-        {{ showForm ? 'Hide Form' : 'Add New Category' }}
-      </button>
+      <div class="d-flex justify-content-end mb-3 my-2 mx-2">
+        <button @click="toggleForm" class="btn btn-primary">
+          {{ showForm ? 'Hide Form' : 'Add New Product' }}
+        </button>
+      </div>
 
       <!-- Category Form -->
       <div v-if="showForm" class="mb-3">
@@ -38,7 +38,7 @@
               <h5 class="card-title">{{ category.name }}</h5>
 
               <!-- Buttons for update and delete operations -->
-              <button @click="editCategory(category)" class="btn btn-info mr-2">
+              <button @click="editCategory(category)" class="btn btn-info mr-2 mx-2">
                 Edit
               </button>
               <button @click="deleteCategory(category.id)" class="btn btn-danger">Delete</button>

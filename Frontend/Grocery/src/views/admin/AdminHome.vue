@@ -44,6 +44,7 @@
 import Chart from 'chart.js/auto';
 
 export default {
+    name: 'AdminHome',
     mounted() {
         const ctx = document.getElementById('myChart');
 

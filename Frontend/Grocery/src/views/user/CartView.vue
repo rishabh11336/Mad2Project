@@ -87,7 +87,7 @@
 
 <script>
 export default {
-  name: 'ProductsView',
+  name: 'CartView',
   data() {
     return {
       products: [],

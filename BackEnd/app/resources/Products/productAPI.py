@@ -28,6 +28,7 @@ class ProductAPI(Resource):
             return jsonify({"msg": "User not found"}), 404
         best_before_str = data['best_before']
         best_before_date = datetime.strptime(best_before_str, "%a, %d %b %Y %H:%M:%S %Z")
+        # best_before_date = datetime.strptime(best_before_str, "%Y-%m-%d")
         product = Product(
             name=data['name'],
             image=data['image'],
@@ -47,7 +48,8 @@ class ProductAPI(Resource):
         data = request.get_json()
         current_user = get_jwt_identity()
         best_before_str = data['best_before']
-        best_before_date = datetime.strptime(best_before_str, "%a, %d %b %Y %H:%M:%S %Z")
+        # best_before_date = datetime.strptime(best_before_str, "%a, %d %b %Y %H:%M:%S %Z")
+        best_before_date = datetime.strptime(best_before_str, "%Y-%m-%d")
         storeManager = User.query.filter_by(username=current_user['username'], role='storeManager').first()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
         if not (storeManager or admin):

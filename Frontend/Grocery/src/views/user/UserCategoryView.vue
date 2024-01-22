@@ -40,7 +40,7 @@
   
   <script>
     export default {
-      name: 'CategoryView',
+      name: 'UserCategoryView',
       data() {
         return {
           categories: []

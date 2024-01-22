@@ -50,6 +50,7 @@
 
 <script>
 export default {
+    name: 'LoginView',
     data() {
         return {
             isLoginForm: true,
