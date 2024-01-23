@@ -32,11 +32,11 @@
             </div>
         </nav>
         <router-view></router-view>
-        <div v-if="$route.path === '/admin'">
+        <!-- <div v-if="$route.path === '/admin'">
             <div class="container">
                 <canvas id="myChart"></canvas>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -45,28 +45,28 @@ import Chart from 'chart.js/auto';
 
 export default {
     name: 'AdminHome',
-    mounted() {
-        const ctx = document.getElementById('myChart');
+    // mounted() {
+    //     const ctx = document.getElementById('myChart');
 
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderWidth: 1,
-                }],
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                    },
-                },
-            },
-        });
-    },
+    //     new Chart(ctx, {
+    //         type: 'bar',
+    //         data: {
+    //             labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    //             datasets: [{
+    //                 label: '# of Votes',
+    //                 data: [12, 19, 3, 5, 2, 3],
+    //                 borderWidth: 1,
+    //             }],
+    //         },
+    //         options: {
+    //             scales: {
+    //                 y: {
+    //                     beginAtZero: true,
+    //                 },
+    //             },
+    //         },
+    //     });
+    // },
     methods: {
         logout() {
             // Add your logout logic here

@@ -123,364 +123,175 @@
           </div>
           <!-- End of Product Requests Section -->
   
-  
-  
+
         </div>
       </div>
     </div>
   </template>
-  <script>
-  import axios from 'axios'
-  
-  export default {
-    name: 'AdminRequests',
-    data() {
+<script>
+
+export default {
+  name: 'AdminRequests',
+  data() {
+    return {
+      sm_requests: [],
+      sm_category_requests: [],
+      product_requests: []
+    };
+  },
+  methods: {
+    // Store Managers Registration Section
+    async getRequests_for_SM_registration() {
+      try {
+        const response = await this.$axios.get('/api/admin/request/storemanager');
+        this.sm_requests = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    deleteRequest_for_SM_registration(id) {
+      (async () => {
+        try {
+          await this.$axios.delete(`/api/admin/request/storemanager/${id}`);
+          this.getRequests_for_SM_registration();
+        } catch (error) {
+          console.error(error);
+        }
+      })();
+    },
+    async acceptRequest_for_SM_registration(id) {
+      try {
+        await this.$axios.put(`/api/admin/request/storemanager/${id}`, {
+          approved: true
+        });
+        this.getRequests_for_SM_registration();
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+
+    // Store Managers Category Requests Section
+    async getRequests_for_SM_category() {
+      try {
+        const res = await this.$axios.get('/api/admin/request/category');
+        this.sm_category_requests = Object.keys(res.data).map(key => {
+          const item = res.data[key];
+          const { approved, createdBy, dateCreated, description, id, image, name } = item;
+          let [storeManager, operation, newName, newImage] = createdBy.split(',');
+
+          operation = operation.trim();
+          let operationType = operation.charAt(0).toUpperCase() + operation.slice(1);
+
+          let categoryName = operation === 'update' ? `${name} to ${newName}` : name;
+
+          return {
+            Category_Id: id,
+            Store_Manager: storeManager.trim(),
+            Operation: operationType,
+            Category_Name: categoryName,
+            NewImage: newImage.trim(),
+            OldImage: image.trim(),
+            OldName: name.trim(),
+            Approved: approved,
+            Date_Created: dateCreated,
+            Description: description
+          };
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    deleteRequest_for_SM_category(id, operation) {
+      (async () => {
+        try {
+          await this.$axios.delete(`/api/admin/request/category/${id}`);
+          this.getRequests_for_SM_category();
+        } catch (error) {
+          console.error(error);
+        }
+      })();
+    },
+    acceptRequest_for_SM_category(id, operation) {
+      (async () => {
+        try {
+          await this.$axios.put(`/api/admin/request/category/${id}`, {
+            approved: true
+          });
+          this.getRequests_for_SM_category();
+        } catch (error) {
+          console.error(error);
+        }
+      })();
+    },
+
+    // Product Requests Section
+    async getRequests_for_Products() {
+  try {
+    const res = await this.$axios.get('/api/admin/request/product');
+    this.product_requests = res.data.map(item => {
+      let storeManager = item.createdBy; // Assuming createdBy is the store manager
+      let operation = 'create'; // Assuming there is no explicit operation in the API output
+
+      let productName = item.name;
+      let categoryId = item.category_id;
+      let price = item.price;
+      let quantity = item.quantity;
+      let siUnit = item.si_unit;
+      let bestBefore = item.best_before;
+
       return {
-        sm_requests: [],
-        sm_category_requests: [],
-        product_requests: []
-      }
-    },
-    methods: {
-  
-      // Store Managers Registration Section
-      getRequests_for_SM_registration() {
-        this.$axios.get('/api/admin/request/storemanager').then((response) => {
-          this.sm_requests = response.data['sm_requests']
-        })
-      },
-      deleteRequest_for_SM_registration(id) {
-        //make a delete request to /requests/:id asynchronusly
-        ; (async () => {
-          await this.$axios.delete(`/api/admin/request/storemanager`+id, {
-          })
-          this.getRequests_for_SM_registration()
-        })()
-      },
-      acceptRequest_for_SM_registration(id) {
-        this.$axios
-          .put(`/api/admin/request/storemanager/${id}`, {
-          })
-          .then((response) => {
-            this.getRequests_for_SM_registration()
-          })
-      },
-  
-  
-  
-      // Store Managers Category Requests Section
-      async getRequests_for_SM_category() {
-        try {
-          const res = await axios.get('http://localhost:5000/category/pending', {
-            headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*',
-              Authorization: 'Bearer ' + localStorage.getItem('access_token')
-            }
-          });
-  
-          this.sm_category_requests = Object.keys(res.data).map(key => {
-            const item = res.data[key];
-            let [storeManager, operation, newName, newImage] = item.created_by.split(',');
-  
-            operation = operation.trim();
-            let operationType = operation.charAt(0).toUpperCase() + operation.slice(1); // Capitalize first letter
-            let categoryName = operation == 'update' ? `${item.name} to ${newName}` : item.name;
-  
-  
-            return {
-              Category_Id: item.id,
-              Store_Manager: storeManager,
-              Operation: operationType,
-              Category_Name: categoryName,
-              NewImage: newImage,
-              OldImage: item.image,
-              OldName: item.name
-            };
-          });
-        } catch (err) {
-          console.error(err);
-        }
-      },
-      deleteRequest_for_SM_category(id, operation) {
-  
-        operation = operation.toLowerCase();
-        let cat = this.sm_category_requests.findIndex(item => item.Category_Id == id);
-        if (operation == 'update' || operation == 'delete') {
-          (async () => {
-            try {
-              await axios.put(`http://localhost:5000/category/${id}`, {
-                name: this.sm_category_requests[cat].OldName,
-                image: this.sm_category_requests[cat].OldImage,
-                created_by: 'admin'
-  
-              }, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Access-Control-Allow-Origin': '*',
-                  Authorization: 'Bearer ' + localStorage.getItem('access_token')
-                }
-              })
-              this.getRequests_for_SM_category()
-            } catch (err) {
-              console.log(err)
-            }
-          })();
-        }
-        if (operation == 'create') {
-          (async () => {
-            try {
-              await axios.delete(`http://localhost:5000/category/${id}`, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Access-Control-Allow-Origin': '*',
-                  Authorization: 'Bearer ' + localStorage.getItem('access_token')
-                }
-              })
-              this.getRequests_for_SM_category()
-            } catch (err) {
-              console.log(err)
-            }
-          })()
-        }
-      },
-      acceptRequest_for_SM_category(id, operation) {
-        //make operation to lower case
-        operation = operation.toLowerCase();
-        // if operation is update and delete, then update created_by field by admin
-        if (operation == 'update') {
-          let cat = this.sm_category_requests.findIndex(item => item.Category_Id == id);
-          (async () => {
-            try {
-              await axios.put(`http://localhost:5000/category/${id}`, {
-                name: this.sm_category_requests[cat].NewName,
-                image: this.sm_category_requests[cat].NewImage,
-                categoryId: this.sm_category_requests[cat].Category_Id,
-                price: this.sm_category_requests[cat].NewPrice,
-                quantity: this.sm_category_requests[cat].NewQuantity,
-                si_unit: this.sm_category_requests[cat].NewSiUnit,
-                best_before: this.sm_category_requests[cat].NewBestBefore,
-  
-                created_by: 'admin'
-              }, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Access-Control-Allow-Origin': '*',
-                  Authorization: 'Bearer ' + localStorage.getItem('access_token')
-                }
-              })
-              this.getRequests_for_SM_category()
-            } catch (err) {
-              console.log(err)
-            }
-          })();
-        }
-        if (operation == 'create') {
-          (async () => {
-            try {
-              await axios.put(`http://localhost:5000/category/${id}`, {
-  
-                created_by: 'admin',
-                is_approved: true
-  
-              }, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Access-Control-Allow-Origin': '*',
-                  Authorization: 'Bearer ' + localStorage.getItem('access_token')
-                }
-              })
-              this.getRequests_for_SM_category()
-            } catch (err) {
-              console.log(err)
-            }
-          })();
-        }
-        if (operation == 'delete') {
-          (async () => {
-            try {
-              await axios.delete(`http://localhost:5000/category/${id}`, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Access-Control-Allow-Origin': '*',
-                  Authorization: 'Bearer ' + localStorage.getItem('access_token')
-                }
-              })
-              this.getRequests_for_SM_category()
-            } catch (err) {
-              console.log(err)
-            }
-          })();
-        }
-  
-      },
-  
-  
-      // Product Requests Section
-      async getRequests_for_Products() {
-        try {
-          const res = await axios.get('http://localhost:5000/product/pending', {
-            headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*',
-              Authorization: 'Bearer ' + localStorage.getItem('access_token')
-            }
-          })
-          this.product_requests = Object.keys(res.data).map(key => {
-            const item = res.data[key];
-            let [storeManager, operation, newName, newImage, newCategoryId, newPrice, newQuantity, newSiUnit, newBestBefore] = item.created_by.split(',');
-  
-            operation = operation.trim();
-            let operationType = operation.charAt(0).toUpperCase() + operation.slice(1); // Capitalize first letter
-            let productName = (operation == 'update' && item.name !== newName) ? `${item.name} to ${newName}` : item.name;
-            let categoryId = (operation == 'update' && item.category_id !== newCategoryId) ? `${item.category_id} to ${newCategoryId}` : item.category_id;
-            let price = (operation == 'update' && item.price !== newPrice) ? `${item.price} to ${newPrice}` : item.price;
-            let quantity = (operation == 'update' && item.quantity !== newQuantity) ? `${item.quantity} to ${newQuantity}` : item.quantity;
-            let siUnit = (operation == 'update' && item.si_unit !== newSiUnit) ? `${item.si_unit} to ${newSiUnit}` : item.si_unit;
-            let bestBefore = (operation == 'update' && item.best_before !== newBestBefore) ? `${item.best_before} to ${newBestBefore}` : item.best_before;
-  
-            return {
-              id: item.id,
-              name: productName,
-              category_id: categoryId,
-              price: price,
-              quantity: quantity,
-              si_unit: siUnit,
-              best_before: bestBefore,
-              created_by: storeManager,
-              operation: operationType,
-              newImage: newImage,
-              oldImage: item.image,
-              oldName: item.name,
-              oldCategoryId: item.category_id,
-              oldPrice: item.price,
-              oldQuantity: item.quantity,
-              oldSiUnit: item.si_unit,
-              oldBestBefore: item.best_before
-            };
-          });
-  
-        }
-        catch (err) {
-          console.error(err);
-        }
-      },
-      deleteProductRequest(id, operation) {
-        // Delete request logic
-        operation = operation.toLowerCase();
-        let product = this.product_requests.findIndex(item => item.id == id);
-        if (operation == 'update' || operation == 'delete') {
-          (async () => {
-            try {
-              await axios.put(`http://localhost:5000/product/${id}`, {
-                created_by: 'admin'
-              }, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Access-Control-Allow-Origin': '*',
-                  Authorization: 'Bearer ' + localStorage.getItem('access_token')
-                }
-              })
-              this.getRequests_for_Products()
-            } catch (err) {
-              console.log(err)
-            }
-          })();
-        }
-        if (operation == 'create') {
-          (async () => {
-            try {
-              await axios.delete(`http://localhost:5000/product/${id}`, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Access-Control-Allow-Origin': '*',
-                  Authorization: 'Bearer ' + localStorage.getItem('access_token')
-                }
-              })
-              this.getRequests_for_Products()
-            } catch (err) {
-              console.log(err)
-            }
-          })();
-        }
-      },
-      acceptProductRequest(id, operation) {
-        // Accept request logic
-        operation = operation.toLowerCase();
-  
-        if (operation == 'update') {
-          let product = this.product_requests.findIndex(item => item.id == id);
-          (async () => {
-            try {
-              await axios.put(`http://localhost:5000/product/${id}`, {
-                name: this.product_requests[product].newName,
-                category_id: this.product_requests[product].newCategoryId,
-                price: this.product_requests[product].newPrice,
-                quantity: this.product_requests[product].newQuantity,
-                si_unit: this.product_requests[product].newSiUnit,
-                best_before: this.product_requests[product].newBestBefore,
-                image: this.product_requests[product].newImage,
-                created_by: 'admin'
-              }, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Access-Control-Allow-Origin': '*',
-                  Authorization: 'Bearer ' + localStorage.getItem('access_token')
-                }
-              })
-              this.getRequests_for_Products()
-            } catch (err) {
-              console.log(err)
-            }
-          })();
-        }
-  
-        if (operation == 'create') {
-          let product = this.product_requests.findIndex(item => item.id == id);
-          (async () => {
-            try {
-              await axios.put(`http://localhost:5000/product/${id}`, {
-                created_by: 'admin',
-                is_approved: true
-              }, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Access-Control-Allow-Origin': '*',
-                  Authorization: 'Bearer ' + localStorage.getItem('access_token')
-                }
-              })
-              this.getRequests_for_Products()
-            } catch (err) {
-              console.log(err)
-            }
-          })();
-        }
-  
-        if (operation == 'delete') {
-          (async () => {
-            try {
-              await axios.delete(`http://localhost:5000/product/${id}`, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Access-Control-Allow-Origin': '*',
-                  Authorization: 'Bearer ' + localStorage.getItem('access_token')
-                }
-              })
-              this.getRequests_for_Products()
-            } catch (err) {
-              console.log(err)
-            }
-          })();
-        }
-  
-      }
-  
-    },
-  
-    mounted() {
-      this.getRequests_for_SM_registration()
-      this.getRequests_for_SM_category()
-      this.getRequests_for_Products()
-    }
+        id: item.id,
+        name: productName,
+        category_id: categoryId,
+        price: price,
+        quantity: quantity,
+        si_unit: siUnit,
+        best_before: bestBefore,
+        created_by: storeManager,
+        operation: operation,
+        newImage: item.image,
+        oldImage: item.image, // Assuming no old image is provided in the API output
+        oldName: item.name,
+        oldCategoryId: item.category_id,
+        oldPrice: item.price,
+        oldQuantity: item.quantity,
+        oldSiUnit: item.si_unit,
+        oldBestBefore: item.best_before
+      };
+    });
+  } catch (error) {
+    console.error(error);
   }
-  </script>
+},
+    deleteProductRequest(id, operation) {
+      (async () => {
+        try {
+          await this.$axios.delete(`/api/admin/request/product/${id}`);
+          this.getRequests_for_Products();
+        } catch (error) {
+          console.error(error);
+        }
+      })();
+    },
+    acceptProductRequest(id, operation) {
+      (async () => {
+        try {
+          await this.$axios.put(`/api/admin/request/product/${id}`, {
+            approved: true
+          });
+          this.getRequests_for_Products();
+        } catch (error) {
+          console.error(error);
+        }
+      })();
+    },
+
+  },
+  mounted() {
+    this.getRequests_for_SM_registration();
+    this.getRequests_for_SM_category();
+    this.getRequests_for_Products();
+  }
+};
+</script>
