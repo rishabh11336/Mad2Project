@@ -6,5 +6,6 @@ BackEnd/app/resources/__pycache__/
 BackEnd/app/resources/auth/__pycache__/
 BackEnd/app/resources/Products/__pycache__/
 BackEnd/app/resources/operations/__pycache__/
+BackEnd/app/resources/utils/__pycache__/
 database.sqlite3
 BackEnd/venv
