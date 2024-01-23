@@ -11,6 +11,11 @@ from .resources.Products.productAPI import ProductAPI
 from .resources.Products.categoryAPI import CategoryAPI
 from .resources.operations.cartAPI import CartAPI
 from .resources.operations.orderAPI import OrderAPI
+from .resources.operations.requestAPI import AdminProductRequestAPI
+from .resources.operations.requestAPI import AdminCategoryRequest
+from .resources.operations.requestAPI import AdminStoreManagerRequest
+
+
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -33,6 +38,7 @@ CORS(
     },
 )
 
+
 # Authentication
 app.add_url_rule('/api/auth/user', view_func=UserAPI.as_view('user_api'), methods=['GET'])
 app.add_url_rule('/api/auth/register', view_func=RegisterAPI.as_view('register_api'), methods=['POST'])
@@ -54,6 +60,12 @@ app.add_url_rule('/api/cart/<int:id>', view_func=CartAPI.as_view('cart_api_id'),
 # Order
 app.add_url_rule('/api/order', view_func=OrderAPI.as_view('order_api'), methods=['POST'])
 
+#Request Admin
+app.add_url_rule('/api/admin/product', view_func=AdminProductRequestAPI.as_view('admin_product_request_api'), methods=['GET', 'DELETE'])
+app.add_url_rule('/api/admin/category', view_func=AdminCategoryRequest.as_view('admin_category_request_api'), methods=['GET', 'DELETE'])
+app.add_url_rule('/api/admin/storemanager', view_func=AdminStoreManagerRequest.as_view('admin_storemanager_request_api'), methods=['GET', 'DELETE'])
+
+
 with app.app_context():
     db.create_all()
     user = User.query.filter_by(username='admin').first()
@@ -67,5 +79,3 @@ with app.app_context():
             approved=True)
         db.session.add(user)
         db.session.commit()
-
-

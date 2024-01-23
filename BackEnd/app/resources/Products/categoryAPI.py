@@ -50,6 +50,8 @@ class CategoryAPI(Resource):
         category.description = data['description']
         category.image = data['image']
         category.createdBy = current_user['id']
+        if not admin:
+            category.approved = False
         db.session.commit()
         return jsonify(category.serialize() | {'message':'category updated'}), 200
     
