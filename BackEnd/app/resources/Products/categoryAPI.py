@@ -14,8 +14,7 @@ class CategoryAPI(Resource):
                 return jsonify({"msg": "Category not found"}), 404
             return jsonify(category.serialize())
         categories = Category.query.filter_by()
-        print([category.serialize() for category in categories if category.approved])
-        return jsonify([category.serialize() for category in categories])
+        return jsonify([category.serialize() for category in categories if category.approved])
     
     @custom_jwt_required()
     def post(self):

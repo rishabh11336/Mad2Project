@@ -61,9 +61,12 @@ app.add_url_rule('/api/cart/<int:id>', view_func=CartAPI.as_view('cart_api_id'),
 app.add_url_rule('/api/order', view_func=OrderAPI.as_view('order_api'), methods=['POST'])
 
 #Request Admin
-app.add_url_rule('/api/admin/product', view_func=AdminProductRequestAPI.as_view('admin_product_request_api'), methods=['GET', 'DELETE'])
-app.add_url_rule('/api/admin/category', view_func=AdminCategoryRequest.as_view('admin_category_request_api'), methods=['GET', 'DELETE'])
-app.add_url_rule('/api/admin/storemanager', view_func=AdminStoreManagerRequest.as_view('admin_storemanager_request_api'), methods=['GET', 'DELETE'])
+app.add_url_rule('/api/admin/request/product', view_func=AdminProductRequestAPI.as_view('admin_product_request_api'), methods=['GET'])
+app.add_url_rule('/api/admin/request/product/<int:id>', view_func=AdminProductRequestAPI.as_view('admin_product_request_api_id'), methods=['PUT', 'DELETE'])
+app.add_url_rule('/api/admin/request/category', view_func=AdminCategoryRequest.as_view('admin_category_request_api'), methods=['GET'])
+app.add_url_rule('/api/admin/request/category/<int:id>', view_func=AdminCategoryRequest.as_view('admin_category_request_api_id'), methods=['PUT', 'DELETE'])
+app.add_url_rule('/api/admin/request/storemanager', view_func=AdminStoreManagerRequest.as_view('admin_storemanager_request_api'), methods=['GET'])
+app.add_url_rule('/api/admin/request/storemanager/<int:id>', view_func=AdminStoreManagerRequest.as_view('admin_storemanager_request_api_id'), methods=['PUT', 'DELETE'])
 
 
 with app.app_context():

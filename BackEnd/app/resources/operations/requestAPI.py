@@ -16,6 +16,20 @@ class AdminProductRequestAPI(Resource):
         return jsonify([product.serialize() for product in products]), 201
     
     @custom_jwt_required()
+    def put(self, id):
+        data = request.get_json()
+        current_user = get_jwt_identity()
+        admin = User.query.filter_by(username=current_user['username'], role='admin').first()
+        if not admin:
+            return jsonify({"msg": "User not found"}), 404
+        product = Product.query.filter_by(id=id).first()
+        if not product:
+            return jsonify({"msg": "Product not found"}), 404
+        product.approved = data['approved']
+        db.session.commit()
+        return jsonify({"msg": "Product updated"}), 201
+    
+    @custom_jwt_required()
     def delete(self, id):
         current_user = get_jwt_identity()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
@@ -39,6 +53,20 @@ class AdminCategoryRequest(Resource):
         return jsonify([category.serialize() for category in categories]), 201
     
     @custom_jwt_required()
+    def put(self, id):
+        data = request.get_json()
+        current_user = get_jwt_identity()
+        admin = User.query.filter_by(username=current_user['username'], role='admin').first()
+        if not admin:
+            return jsonify({"msg": "User not found"}), 404
+        category = Category.query.filter_by(id=id).first()
+        if not category:
+            return jsonify({"msg": "Category not found"}), 404
+        category.approved = data['approved']
+        db.session.commit()
+        return jsonify({"msg": "Category updated"}), 201
+
+    @custom_jwt_required()
     def delete(self, id):
         current_user = get_jwt_identity()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
@@ -60,6 +88,20 @@ class AdminStoreManagerRequest(Resource):
             return jsonify({"msg": "User not found"}), 404
         storeManagers = User.query.filter_by(role='storemanager', approved=False)
         return jsonify([storeManager.serialize() for storeManager in storeManagers]), 201
+    
+    @custom_jwt_required()
+    def put(self, id):
+        data = request.get_json()
+        current_user = get_jwt_identity()
+        admin = User.query.filter_by(username=current_user['username'], role='admin').first()
+        if not admin:
+            return jsonify({"msg": "User not found"}), 404
+        storeManager = User.query.filter_by(id=id).first()
+        if not storeManager:
+            return jsonify({"msg": "Store Manager not found"}), 404
+        storeManager.approved = data['approved']
+        db.session.commit()
+        return jsonify({"msg": "Store Manager updated"}), 201
     
     @custom_jwt_required()
     def delete(self, id):

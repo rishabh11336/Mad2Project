@@ -145,32 +145,21 @@
   
       // Store Managers Registration Section
       getRequests_for_SM_registration() {
-        axios.get('http://localhost:5000/requests').then((response) => {
+        this.$axios.get('/api/admin/request/storemanager').then((response) => {
           this.sm_requests = response.data['sm_requests']
         })
       },
       deleteRequest_for_SM_registration(id) {
         //make a delete request to /requests/:id asynchronusly
         ; (async () => {
-          let url = `http://localhost:5000/requests/` + id
-          await axios.delete(url, {
-            headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*',
-              Authorization: 'Bearer ' + localStorage.getItem('access_token')
-            }
+          await this.$axios.delete(`/api/admin/request/storemanager`+id, {
           })
           this.getRequests_for_SM_registration()
         })()
       },
       acceptRequest_for_SM_registration(id) {
-        axios
-          .post(`http://localhost:5000/requests/${id}`, {
-            headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*',
-              Authorization: 'Bearer ' + localStorage.getItem('access_token')
-            }
+        this.$axios
+          .put(`/api/admin/request/storemanager/${id}`, {
           })
           .then((response) => {
             this.getRequests_for_SM_registration()
