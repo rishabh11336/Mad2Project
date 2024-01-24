@@ -26,6 +26,11 @@ db.init_app(app)
 bcrypt.init_app(app)
 jwt = JWTManager(app)
 
+#creating cache
+from flask_caching import Cache
+cache = Cache()
+
+
 CORS(app)
 CORS(
     app,

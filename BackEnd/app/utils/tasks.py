@@ -24,11 +24,14 @@ def daily_reminders():
 @shared_task(ignore_result=True)
 def monthly_activity_report():
     print('Sending monthly activity reports')
-    for user in User.query.filter_by(role='user').all():
-        user_orders = [order for order in Order.query.all() if order.user_id == user.id]
-        total_expenditure = sum(order.total for order in user_orders)
-        html_report = create_html_report(user, user_orders, total_expenditure)
-        send_email(user.email, 'Monthly Activity Report', html_report)
+    # send sample email
+    html_report = create_html_report(['user'], ['order'], ['total_expenditure'])
+    send_email('email', 'Monthly Activity Report', html_report)
+    # for user in User.query.filter_by(role='user').all():
+    #     user_orders = [order for order in Order.query.all() if order.user_id == user.id]
+    #     total_expenditure = sum(order.total for order in user_orders)
+    #     html_report = create_html_report(user, user_orders, total_expenditure)
+    #     send_email(user.email, 'Monthly Activity Report', html_report)
 
 def process_data(products, categories, order_items):
     processed_products = {product.id: {'name': product.name, 'price': product.price, 'stock': product.quantity, 'units_sold': 0, 'category_name': next((c.name for c in categories if c.id == product.category_id), 'Unknown')} for product in products}

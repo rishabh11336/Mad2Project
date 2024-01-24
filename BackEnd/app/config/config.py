@@ -1,8 +1,9 @@
 import os
-
 from datetime import timedelta
 
 class Config:
+  
+
     Upload_Folder = os.path.join(os.getcwd(), '..', 'static')
     
     SQLALCHEMY_DATABASE_URI = 'sqlite:///database.db'
@@ -12,3 +13,11 @@ class Config:
     JWT_BLACKLIST_ENABLED = True
     JWT_BLACKLIST_TOKEN_CHECKS = ["access", "refresh"]
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(seconds=1000000)
+
+    # Redis Config
+    CACHE_TYPE= 'RedisCache'
+    CACHE_REDIS_URL= 'redis://localhost:6969/3'
+    CACHE_DEFAULT_TIMEOUT= 300
+     
+
+    
