@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask,request,jsonify
+from flask import Flask,request,jsonify, send_file
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 
@@ -70,6 +70,15 @@ app.add_url_rule('/api/admin/request/category', view_func=AdminCategoryRequest.a
 app.add_url_rule('/api/admin/request/category/<int:id>', view_func=AdminCategoryRequest.as_view('admin_category_request_api_id'), methods=['PUT', 'DELETE'])
 app.add_url_rule('/api/admin/request/storemanager', view_func=AdminStoreManagerRequest.as_view('admin_storemanager_request_api'), methods=['GET'])
 app.add_url_rule('/api/admin/request/storemanager/<int:id>', view_func=AdminStoreManagerRequest.as_view('admin_storemanager_request_api_id'), methods=['PUT', 'DELETE'])
+
+from app.utils.tasks import sm_report
+from time import sleep
+
+@app.get('/get-csv')
+def get_csv(): 
+    name = sm_report()
+    sleep(2)    
+    return send_file(name, as_attachment=True)
 
 
 with app.app_context():

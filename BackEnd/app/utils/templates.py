@@ -111,7 +111,7 @@ def create_html_reminder(user):
 
 def google_chat_webhook(user):
     """Google Chat incoming webhook with a card message resembling an HTML template."""
-    url = "https://chat.googleapis.com/v1/spaces/AAAA7MSq7Cw/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=6qGFxBH5DrboF2epaqFr_m8xFx1iUEMafNgRdQrxnR0"
+    url = "https://chat.googleapis.com/v1/spaces/AAAAPS3VyIw/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=JhhTjjZOXMtvDg8lyv-A-b_mg2Ne9eC4Vd6vonQkit4"
 
     username = user
 

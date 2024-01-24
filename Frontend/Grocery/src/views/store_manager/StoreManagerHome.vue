@@ -15,7 +15,7 @@
                         <router-link to="/store_manager/category" class="nav-link">Categories</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/store_manager/request" class="nav-link">Requests</router-link>
+                        <a class="btn btn-outline-primary nav-link" href="http://127.0.0.1:5000/get-csv">Report</a>
                     </li>
                 </ul>
                 

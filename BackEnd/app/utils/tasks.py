@@ -10,7 +10,7 @@ from app.utils.templates import create_html_reminder, create_html_report, google
 @shared_task(ignore_result=True)
 def daily_reminders():
     current_date_str = datetime.now().strftime('%Y-%m-%d')
-    orders = Order.query.filter(Order.created_at.like(current_date_str + '%')).all()
+    orders = Order.query.filter(Order.dateCreated.like(current_date_str + '%')).all()
     order_user_ids = {order.user_id for order in orders}
 
     for user in User.query.filter_by(role='user').all():
@@ -37,7 +37,7 @@ def process_data(products, categories, order_items):
     processed_products = {product.id: {'name': product.name, 'price': product.price, 'stock': product.quantity, 'units_sold': 0, 'category_name': next((c.name for c in categories if c.id == product.category_id), 'Unknown')} for product in products}
     
     for item in order_items:
-        processed_products.setdefault(item.product_id, {'name': item.product_name, 'price': item.product_price, 'stock': 0, 'units_sold': 0, 'category_name': 'Unknown'})['units_sold'] += item.quantity
+        processed_products.setdefault(item.product_id, {'name': item.product_name, 'price': item.price, 'stock': 0, 'units_sold': 0, 'category_name': 'Unknown'})['units_sold'] += item.quantity
     
     return list(processed_products.values())
 
@@ -51,35 +51,6 @@ def monthly_activity_report():
         html_report = create_html_report(user, user_orders, total_expenditure)
         send_email(user.email, 'Monthly Activity Report', html_report)
 
-
-
-# @cel.task(ignore_result=True)
-# @main.celery_app.task
-def store_manager_report():
-    #change save location
-
-    with open('data.csv', 'w', outfile='') as output_file:
-        dict_writer = csv.DictWriter(output_file, ['name', 'price', 'stock', 'units_sold', 'category_name'])
-        dict_writer.writeheader()
-        dict_writer.writerows(process_data(Product.query.all(), Category.query.all(), OrderItem.query.all()))
-
-
-
-def store_manager_report():
-    from main import celery_app as cel
-
-    @cel.task(ignore_result=True)
-    def task():
-        
-        with open('data.csv', 'w', newline='') as output_file:
-            dict_writer = csv.DictWriter(output_file, ['name', 'price', 'stock', 'units_sold', 'category_name'])
-            dict_writer.writeheader()
-            dict_writer.writerows(process_data(Product.query.all(), Category.query.all(), OrderItem.query.all()))
-        
-        
-    task_result = task.delay()
-
-    return str(task_result.id)
 
 def sm_report():
  # Define the base directory (e.g., your project's root directory)
