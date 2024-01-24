@@ -83,7 +83,7 @@ class ProductAPI(Resource):
         if storeManager:
             product.approved = False
             db.session.commit()
-            return jsonify({"msg": "Product delete Requested"}), 401
+            return jsonify({"msg": "Product delete Requested"}), 200
         db.session.delete(product)
         db.session.commit()
         return jsonify({"msg": "Product deleted"}), 200
