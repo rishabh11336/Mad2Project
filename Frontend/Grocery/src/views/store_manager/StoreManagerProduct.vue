@@ -140,6 +140,7 @@ export default {
           // Refresh products after deletion
           await this.fetchProducts();
         } catch (error) {
+          alert(error.response.data.message)
           console.error('Error deleting product', error);
         }
       }
