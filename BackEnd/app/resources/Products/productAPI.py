@@ -6,9 +6,11 @@ from datetime import datetime
 from app.models.model import User, Product, db
 from app.resources.auth.userAPI import custom_jwt_required
 
+from app.cache import cache
 
 class ProductAPI(Resource):
     @custom_jwt_required()
+    @cache.cached(timeout=300, query_string=True)
     def get(self, id=None):
         if id:
             product = Product.query.filter_by(id=id).first()
@@ -20,6 +22,7 @@ class ProductAPI(Resource):
     
     @custom_jwt_required()
     def post(self):
+        cache.clear()
         data = request.get_json()
         current_user = get_jwt_identity()
         storeManager = User.query.filter_by(username=current_user['username'], role='storemanager').first()
@@ -45,6 +48,7 @@ class ProductAPI(Resource):
     
     @custom_jwt_required()
     def put(self, id):
+        cache.clear()
         data = request.get_json()
         current_user = get_jwt_identity()
         best_before_str = data['best_before']
@@ -72,6 +76,7 @@ class ProductAPI(Resource):
     
     @custom_jwt_required()
     def delete(self, id):
+        cache.clear()
         current_user = get_jwt_identity()
         storeManager = User.query.filter_by(username=current_user['username'], role='storemanager').first()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()

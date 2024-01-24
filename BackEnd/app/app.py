@@ -26,9 +26,7 @@ db.init_app(app)
 bcrypt.init_app(app)
 jwt = JWTManager(app)
 
-#creating cache
-from flask_caching import Cache
-cache = Cache()
+
 
 
 CORS(app)
@@ -77,6 +75,9 @@ app.add_url_rule('/api/admin/request/storemanager/<int:id>', view_func=AdminStor
 with app.app_context():
     db.create_all()
     user = User.query.filter_by(username='admin').first()
+    from .cache import cache
+    cache.init_app(app)
+
     
     if not user:
         user = User(

@@ -113,37 +113,9 @@ def google_chat_webhook(user):
     """Google Chat incoming webhook with a card message resembling an HTML template."""
     url = "https://chat.googleapis.com/v1/spaces/AAAA7MSq7Cw/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=6qGFxBH5DrboF2epaqFr_m8xFx1iUEMafNgRdQrxnR0"
 
-    # Replace with actual user information
     username = user
 
-    card_message = {
-        "cards": [
-            {
-                "header": {
-                    "title": "Larder Vault Reminder",
-                    "imageUrl": "https://raw.githubusercontent.com/namansehwal/Assets/main/login.webp",
-                    "imageStyle": "IMAGE"
-                },
-                "sections": [
-                    {
-                        "widgets": [
-                            {
-                                "textParagraph": {
-                                    "text": f"<b><font color=\"#4CAF50\">Dear {username.upper()},</font></b>"
-                                }
-                            },
-                            {
-                                "textParagraph": {
-                                    "text": "You have not visited our store today. Please visit us soon."
-                                }
-                            }
-                        ]
-                    }
-                ]
-            },
-            
-        ]
-    }
+    card_message = {"text": "Hello " + username + ",\nYou have not visited our store today. Please visit us soon."}
 
     message_headers = {"Content-Type": "application/json; charset=UTF-8"}
 
