@@ -64,6 +64,9 @@ class CategoryAPI(Resource):
         category = Category.query.filter_by(id=id).first()
         if not category:
             return jsonify({"msg": "Category not found"}), 404
+        if storeManager:
+            category.approved = False
+            return jsonify({"msg": "Category updated"}), 200
         db.session.delete(category)
         db.session.commit()
         return jsonify({"msg": "Category deleted"}), 200

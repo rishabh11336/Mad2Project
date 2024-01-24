@@ -173,35 +173,69 @@ export default {
 
     // Store Managers Category Requests Section
     async getRequests_for_SM_category() {
-      try {
-        const res = await this.$axios.get('/api/admin/request/category');
-        this.sm_category_requests = Object.keys(res.data).map(key => {
-          const item = res.data[key];
-          const { approved, createdBy, dateCreated, description, id, image, name } = item;
-          let [storeManager, operation, newName, newImage] = createdBy.split(',');
+  try {
+    const res = await this.$axios.get('/api/admin/request/category');
 
-          operation = operation.trim();
-          let operationType = operation.charAt(0).toUpperCase() + operation.slice(1);
+    this.sm_category_requests = Object.keys(res.data).map(key => {
+      const item = res.data[key];
 
-          let categoryName = operation === 'update' ? `${name} to ${newName}` : name;
+      // Extracting data from the given response
+      const { approved, createdBy, dateCreated, description, id, image, name } = item;
 
-          return {
-            Category_Id: id,
-            Store_Manager: storeManager.trim(),
-            Operation: operationType,
-            Category_Name: categoryName,
-            NewImage: newImage.trim(),
-            OldImage: image.trim(),
-            OldName: name.trim(),
-            Approved: approved,
-            Date_Created: dateCreated,
-            Description: description
-          };
-        });
-      } catch (error) {
-        console.error(error);
+      // Initialize variables with default values
+      let storeManager = 'Unknown';
+      let operation = 'Unknown';
+      let newName = 'Unknown';
+      let newImage = 'Unknown';
+
+      // Check if createdBy is defined and has the expected structure
+      if (createdBy && Array.isArray(createdBy.split)) {
+        [storeManager, operation, newName, newImage] = createdBy.split(',');
+
+        // Trim operation if it exists
+        operation = operation ? operation.trim() : '';
+
+        // Capitalize first letter of operation
+        let operationType = operation.charAt(0).toUpperCase() + operation.slice(1);
+
+        // Create category name based on the operation
+        let categoryName = operation === 'update' ? `${name} to ${newName}` : name;
+
+        return {
+          Category_Id: id,
+          Store_Manager: storeManager.trim(),
+          Operation: operationType,
+          Category_Name: categoryName,
+          NewImage: newImage.trim(),
+          OldImage: image.trim(),
+          OldName: name.trim(),
+          Approved: approved,
+          Date_Created: dateCreated,
+          Description: description
+        };
+      } else {
+        console.error('Invalid createdBy format:', createdBy);
+        // Handle the error or set default values as needed
+        // For example: return a default object or set default values for the properties
+        return {
+          Category_Id: id,
+          Store_Manager: 'Unknown',
+          Operation: 'Unknown',
+          Category_Name: name.trim(),
+          NewImage: 'Unknown',
+          OldImage: image.trim(),
+          OldName: name.trim(),
+          Approved: approved,
+          Date_Created: dateCreated,
+          Description: description
+        };
       }
-    },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+},
+
     deleteRequest_for_SM_category(id, operation) {
       (async () => {
         try {

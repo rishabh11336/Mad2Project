@@ -80,6 +80,9 @@ class ProductAPI(Resource):
         product = Product.query.filter_by(id=id).first()
         if not product:
             return jsonify({"msg": "Product not found"}), 404
+        if storeManager:
+            product.approved = False
+            return jsonify({"msg": "Unauthorized"}), 401
         db.session.delete(product)
         db.session.commit()
         return jsonify({"msg": "Product deleted"}), 200
