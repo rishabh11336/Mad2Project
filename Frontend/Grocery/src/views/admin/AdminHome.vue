@@ -20,15 +20,10 @@
                         <router-link to="/admin/requests" class="nav-link">Requests</router-link>
                     </li>
                 </ul>
-                
-                <!-- Updated search form -->
-                <form class="d-flex ms-auto mx-2" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
+          
                 
                 <!-- Updated logout button -->
-                <button @click="logout" class="btn btn-outline-danger">Logout</button>
+                <button @click="logout" class="d-flex ms-auto mx-2 btn btn-outline-danger">Logout</button>
             </div>
         </nav>
         <router-view></router-view>
