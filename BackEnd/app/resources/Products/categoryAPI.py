@@ -66,6 +66,7 @@ class CategoryAPI(Resource):
             return jsonify({"msg": "Category not found"}), 404
         if storeManager:
             category.approved = False
+            db.session.commit()
             return jsonify({"msg": "Category updated"}), 200
         db.session.delete(category)
         db.session.commit()

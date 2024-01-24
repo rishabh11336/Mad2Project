@@ -82,7 +82,8 @@ class ProductAPI(Resource):
             return jsonify({"msg": "Product not found"}), 404
         if storeManager:
             product.approved = False
-            return jsonify({"msg": "Unauthorized"}), 401
+            db.session.commit()
+            return jsonify({"msg": "Product delete Requested"}), 401
         db.session.delete(product)
         db.session.commit()
         return jsonify({"msg": "Product deleted"}), 200
