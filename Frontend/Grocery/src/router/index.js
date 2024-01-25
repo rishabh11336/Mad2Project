@@ -5,24 +5,14 @@ import AdminHome from '../views/admin/AdminHome.vue'
 import AdminCategoryView from '../views/admin/AdminCategoryView.vue'
 import AdminProductView from '../views/admin/AdminProductView.vue'
 import AdminRequests from '../views/admin/AdminRequests.vue'
-//import AdminCategoryRequest from '../views/admin/CategoryView.vue'
-// import AdminDashboard from '../views/admin/Dashboard.vue'
-// import AdminProductRequest from '../views/admin/Product.vue'
-// import AdminRequests from '../views/admin/AdminRequests.vue'
+import AdminGraphView from '../views/admin/AdminGraphView.vue'
+
 
 import StoreManagerHome from '../views/store_manager/StoreManagerHome.vue'
 import StoreManagerProduct from '../views/store_manager/StoreManagerProduct.vue'
 import StoreManagerCategory from '../views/store_manager/StoreManagerCategory.vue'
 
-// import SM_Main from '../views/store_manager/SM_Main.vue'
-// import SM_Category from '../views/store_manager/Category.vue'
-// import SM_Product from '../views/store_manager/Product.vue'
 
-// import UserDashboard from '../views/user/Dashboard.vue'
-// import UserProduct from '../views/user/Product.vue'
-// import UserCategory from '../views/user/Category.vue'
-// import UserCart from '../views/user/Cart.vue'
-// import UserSearch from '../views/user/Search.vue'
 import UserHome from '../views/user/UserHome.vue'
 import UserProductView from '../views/user/UserProductView.vue'
 import UserCategoryView from '../views/user/UserCategoryView.vue'
@@ -47,11 +37,11 @@ const routes = [
       role: 'admin'
     },
     children: [
-      // {
-      //   path: '',
-      //   name: 'AdminDashboard',
-      //   component: AdminDashboard
-      // },
+      {
+        path: 'graph',
+        name: 'AdminGraphView',
+        component: AdminGraphView
+      },
       {
         path: 'products',
         name: 'AdminProductView',
@@ -104,11 +94,7 @@ const routes = [
       role: 'user'
     },
     children: [
-  //     {
-  //       path: '/dashboard',
-  //       name: 'UserDashboard',
-  //       component: UserDashboard
-  //     },
+
       {
         path: 'products',
         name: 'UserProductView',
@@ -123,17 +109,7 @@ const routes = [
         path: 'cart',
         name: 'CartView',
         component: CartView
-      },
-  //     {
-  //       path: 'cart',
-  //       name: 'UserCart',
-  //       component: UserCart
-  //     },
-  //     {
-  //       path: 'search',
-  //       name: 'UserSearch',
-  //       component: UserSearch
-  //     }
+      }
     ]
   },
   {

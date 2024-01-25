@@ -19,49 +19,25 @@
                     <li class="nav-item">
                         <router-link to="/admin/requests" class="nav-link">Requests</router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link to="/admin/graph" class="nav-link">Graph</router-link>
+                    </li>
                 </ul>
           
                 
-                <!-- Updated logout button -->
                 <button @click="logout" class="d-flex ms-auto mx-2 btn btn-outline-danger">Logout</button>
             </div>
         </nav>
         <router-view></router-view>
-        <!-- <div v-if="$route.path === '/admin'">
-            <div class="container">
-                <canvas id="myChart"></canvas>
-            </div>
-        </div> -->
+        <div v-if="$route.path === '/admin'">
+            <h1 class="text-center">Welcome to Admin of Grocery App</h1>
+        </div>
     </div>
 </template>
 
 <script>
-import Chart from 'chart.js/auto';
-
 export default {
     name: 'AdminHome',
-    // mounted() {
-    //     const ctx = document.getElementById('myChart');
-
-    //     new Chart(ctx, {
-    //         type: 'bar',
-    //         data: {
-    //             labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    //             datasets: [{
-    //                 label: '# of Votes',
-    //                 data: [12, 19, 3, 5, 2, 3],
-    //                 borderWidth: 1,
-    //             }],
-    //         },
-    //         options: {
-    //             scales: {
-    //                 y: {
-    //                     beginAtZero: true,
-    //                 },
-    //             },
-    //         },
-    //     });
-    // },
     methods: {
         logout() {
             // Add your logout logic here

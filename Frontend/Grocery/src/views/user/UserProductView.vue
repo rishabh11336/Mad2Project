@@ -74,11 +74,21 @@ export default {
   },
   computed: {
     filteredProducts() {
+      let filtered = this.products;
+
+      // Apply category filter if categoryId is provided
       if (this.categoryId) {
-        return this.products.filter(product => product.category_id == this.categoryId);
-      } else {
-        return this.products;
+        filtered = filtered.filter(product => product.category_id == this.categoryId);
       }
+
+      // Apply search filter if search query is provided
+      const searchQuery = this.$route.query.search;
+      if (searchQuery) {
+        const searchRegex = new RegExp(searchQuery, 'i'); // Case-insensitive search
+        filtered = filtered.filter(product => searchRegex.test(product.name));
+      }
+
+      return filtered;
     },
   },
   methods: {
