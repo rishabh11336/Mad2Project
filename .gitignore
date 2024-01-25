@@ -2,3 +2,5 @@ venv/
 __pycache__
 database.sqlite3
 BackEnd/venv
+dump.rdb
+BackEnd/celerybeat-schedule

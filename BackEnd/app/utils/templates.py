@@ -16,19 +16,20 @@ def create_html_report(user, orders, total_expenditure):
     <style type="text/css">
         body { font-family: Arial, sans-serif; }
         .container { width: 100%; max-width: 600px; margin: auto; }
-        .header { background-color: #4CAF50; padding: 10px; text-align: center; color: white; }
+        .header { background-color: #af9d4c; padding: 10px; text-align: center; color: white; }
         .content { background-color: #ffffff; padding: 20px; }
-        .footer { background-color: #333; padding: 10px; text-align: center; color: white; }
+        .footer { background-color: #535353; padding: 10px; text-align: center; color: white; }
         table { width: 100%; border-collapse: collapse; }
         th, td { border: 1px solid #dddddd; text-align: left; padding: 8px; }
-        th { background-color: #4CAF50; color: white; }
+        th { background-color: #af9d4c; color: white; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://raw.githubusercontent.com/namansehwal/Assets/main/login.webp" alt="Larder Vault Logo" style="max-width: 100px;"/>
-            <h2>Larder Vault Monthly Activity Report</h2>
+            
+            <img src="https://github.com/rishabh11336/Mad-2-Backend/blob/main/Emart-logo.jpg?raw=true" alt="E-MArt Logo" style="max-width: 100px;"/>
+            <h2>E-Mart Monthly Activity Report</h2>
         </div>
         <div class="content">
             <p>Dear {{ user.username | upper  }},</p>
@@ -50,15 +51,14 @@ def create_html_report(user, orders, total_expenditure):
                 {% endfor %}
             </table>
 
-            <p><strong>Total Expenditure:</strong> ₹{{ total_expenditure }}</p>
+            <p><strong>Total:</strong> ₹{{ total_expenditure }}</p>
         </div>
         <div class="footer">
-            <p>Thank you for shopping with Larder Vault.</p>
+            <p>Thank you for shopping with E-Mart.</p>
         </div>
     </div>
 </body>
 </html>
-
 """
 
     # Render the template with the user's data
@@ -77,31 +77,30 @@ def create_html_reminder(user):
     <style type="text/css">
         body { font-family: Arial, sans-serif; }
         .container { width: 100%; max-width: 600px; margin: auto; }
-        .header { background-color: #4CAF50; padding: 10px; text-align: center; color: white; }
+        .header { background-color: #af9d4c; padding: 10px; text-align: center; color: white; }
         .content { background-color: #ffffff; padding: 20px; }
-        .footer { background-color: #333; padding: 10px; text-align: center; color: white; }
+        .footer { background-color: #535353; padding: 10px; text-align: center; color: white; }
         table { width: 100%; border-collapse: collapse; }
         th, td { border: 1px solid #dddddd; text-align: left; padding: 8px; }
-        th { background-color: #4CAF50; color: white; }
+        th { background-color: #af9d4c; color: white; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://raw.githubusercontent.com/namansehwal/Assets/main/login.webp" alt="Larder Vault Logo" style="max-width: 100px;"/>
-            <h2>Larder Vault Reminder</h2>
+            <img src="https://github.com/rishabh11336/Mad-2-Backend/blob/main/Emart-logo.jpg?raw=true" alt="E-Mart Logo" style="max-width: 100px;"/>
+            <h2>E-Mart Reminder</h2>
         </div>
         <div class="content">
             <p>Dear {{ user.username | upper  }},</p>
             <p>You have not visited our store today. Please visit us soon.</p>
         </div>
         <div class="footer">
-            <p>Thank you for shopping with Larder Vault.</p>
+            <p>Thank you for shopping with E-Mart.</p>
         </div>
     </div>
 </body>
 </html>
-
 """
 
     # Render the template with the user's data
