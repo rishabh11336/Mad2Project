@@ -42,6 +42,9 @@
           <button type="submit" class="btn btn-success">
             {{ editMode ? 'Update Product' : 'Add Product' }}
           </button>
+          <button @click="toggleForm" class="btn btn-primary mx-2">
+          {{ showForm ? 'Hide Form' : 'Add New Product' }}
+          </button>
         </form>
       </div>
 

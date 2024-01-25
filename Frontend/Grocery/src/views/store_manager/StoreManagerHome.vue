@@ -14,14 +14,11 @@
                     <li class="nav-item">
                         <router-link to="/store_manager/category" class="nav-link">Categories</router-link>
                     </li>
-                    <li class="nav-item">
-                        <a class="btn btn-outline-primary nav-link" href="http://127.0.0.1:5000/get-csv">Report</a>
-                    </li>
                 </ul>
                 
             
-               
-                <button @click="logout" class="d-flex ms-auto mx-2 btn btn-outline-danger">Logout</button>
+                <a class="btn btn-outline-primary d-flex ms-auto mx-2" href="http://127.0.0.1:5000/get-csv">Report</a>
+                <button @click="logout" class="btn btn-outline-danger">Logout</button>
             </div>
         </nav>
         <router-view></router-view>
