@@ -4,9 +4,12 @@ from flask_jwt_extended import get_jwt_identity
 
 from app.models.model import User, Cart, db
 from app.resources.auth.userAPI import custom_jwt_required
+from app.cache import cache
+
 
 class CartAPI(Resource):
     @custom_jwt_required()
+    @cache.cached(timeout=300, query_string=True)
     def get(self):
         current_user = get_jwt_identity()
         carts = Cart.query.filter_by(user_id=current_user['id'])
