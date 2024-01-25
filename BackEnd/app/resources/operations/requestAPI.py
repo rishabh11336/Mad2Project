@@ -9,8 +9,7 @@ from app.cache import cache
 
 
 class AdminProductRequestAPI(Resource):
-    @custom_jwt_required()
-    @cache.cached(timeout=300, query_string=True)    
+    @custom_jwt_required()    
     def get(self):
         current_user = get_jwt_identity()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
@@ -21,7 +20,6 @@ class AdminProductRequestAPI(Resource):
     
     @custom_jwt_required()
     def put(self, id):
-        cache.clear()
         data = request.get_json()
         current_user = get_jwt_identity()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
@@ -36,7 +34,6 @@ class AdminProductRequestAPI(Resource):
     
     @custom_jwt_required()
     def delete(self, id):
-        cache.clear()
         current_user = get_jwt_identity()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
         if not admin:
@@ -50,8 +47,6 @@ class AdminProductRequestAPI(Resource):
     
 class AdminCategoryRequest(Resource):
     @custom_jwt_required()
-    
-    @cache.cached(timeout=300, query_string=True)
     def get(self):
         current_user = get_jwt_identity()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
@@ -62,7 +57,6 @@ class AdminCategoryRequest(Resource):
     
     @custom_jwt_required()
     def put(self, id):
-        cache.clear()
         data = request.get_json()
         current_user = get_jwt_identity()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
@@ -77,7 +71,6 @@ class AdminCategoryRequest(Resource):
 
     @custom_jwt_required()
     def delete(self, id):
-        cache.clear()
         current_user = get_jwt_identity()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
         if not admin:
@@ -91,7 +84,6 @@ class AdminCategoryRequest(Resource):
     
 class AdminStoreManagerRequest(Resource):
     @custom_jwt_required()
-    @cache.cached(timeout=300, query_string=True)
     def get(self):
         current_user = get_jwt_identity()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
@@ -102,7 +94,6 @@ class AdminStoreManagerRequest(Resource):
     
     @custom_jwt_required()
     def put(self, id):
-        cache.clear()
         data = request.get_json()
         current_user = get_jwt_identity()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
@@ -117,7 +108,6 @@ class AdminStoreManagerRequest(Resource):
     
     @custom_jwt_required()
     def delete(self, id):
-        cache.clear()
         current_user = get_jwt_identity()
         admin = User.query.filter_by(username=current_user['username'], role='admin').first()
         if not admin:

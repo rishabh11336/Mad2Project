@@ -45,8 +45,8 @@ def create_html_report(user, orders, total_expenditure):
                 {% for order in orders %}
                 <tr>
                     <td>{{ order.id }}</td>
-                    <td>{{ order.created_at }}</td>
-                    <td>₹{{ order.total }}</td>
+                    <td>{{ order.dateCreated }}</td>
+                    <td>₹{{ order.totalprice }}</td>
                 </tr>
                 {% endfor %}
             </table>

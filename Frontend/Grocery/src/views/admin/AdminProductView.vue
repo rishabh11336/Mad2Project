@@ -39,7 +39,7 @@
             <label for="productExpDate">best_before:</label>
             <input v-model="formData.best_before" type="date" class="form-control" id="productbest_before" required>
           </div>
-          <button type="submit" class="btn btn-success">
+          <button type="submit" class="btn btn-success my-2">
             {{ editMode ? 'Update Product' : 'Add Product' }}
           </button>
           <button @click="toggleForm" class="btn btn-primary mx-2">

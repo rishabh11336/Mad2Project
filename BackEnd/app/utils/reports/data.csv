@@ -1,6 +1,12 @@
 name,price,stock,units_sold,category_name
-123,32123.0,123123,0,Unknown
-1321312312,123.0,12312323,0,Unknown
-ffy,500.0,100,0,Dry Fruits
-Coca-cola,30.0,0,9,Unknown
-Pepsi-pepsico,31.0,0,15,Unknown
+Gourmet Gifts,200.0,99,0,Chocolates
+Syrup & sweetners,20.0,47,9,Chocolates
+Salt,16.0,90,10,Cooking & ready to eat
+Elaichi,15.0,19,6,Cooking & ready to eat
+Ready Masalas,65.0,94,6,Cooking & ready to eat
+Seasoning,65.0,90,0,Cooking & ready to eat
+Pasta & Noodles,95.0,95,5,Snacks
+Baking Supplies,30.0,93,7,Snacks
+Ready to cook,35.0,97,3,Snacks
+Cashew,700.0,75,11,Dry fruits
+Almonds,660.0,72,6,Dry fruits

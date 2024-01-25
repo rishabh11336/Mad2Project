@@ -20,6 +20,7 @@ class OrderAPI(Resource):
 
     @custom_jwt_required()
     def post(self):
+        cache.clear()
         data = request.get_json()
         current_user = get_jwt_identity()
         user = User.query.filter_by(username=current_user['username']).first()
@@ -57,6 +58,7 @@ class OrderAPI(Resource):
 
     @custom_jwt_required()
     def delete(self, id):
+        cache.clear()
         current_user = get_jwt_identity()
         user = User.query.filter_by(username=current_user['username']).first()
         if not user:

@@ -10,7 +10,7 @@ from app.cache import cache
 
 class ProductAPI(Resource):
     @custom_jwt_required()
-    @cache.cached(timeout=300, query_string=True)
+    @cache.cached(timeout=3, query_string=True)
     def get(self, id=None):
         if id:
             product = Product.query.filter_by(id=id).first()

@@ -26,19 +26,38 @@ def monthly_activity_report():
     print('Sending monthly activity reports')
     # send sample email
     html_report = create_html_report(['user'], ['order'], ['total_expenditure'])
-    send_email('email', 'Monthly Activity Report', html_report)
-    # for user in User.query.filter_by(role='user').all():
-    #     user_orders = [order for order in Order.query.all() if order.user_id == user.id]
-    #     total_expenditure = sum(order.total for order in user_orders)
-    #     html_report = create_html_report(user, user_orders, total_expenditure)
-    #     send_email(user.email, 'Monthly Activity Report', html_report)
+    # send_email('email', 'Monthly Activity Report', html_report)
+    for user in User.query.filter_by(role='user').all():
+        user_orders = [order for order in Order.query.all() if order.user_id == user.id]
+        total_expenditure = sum(order.totalprice for order in user_orders)
+        html_report = create_html_report(user, user_orders, total_expenditure)
+        send_email(user.email, 'Monthly Activity Report', html_report)
 
 def process_data(products, categories, order_items):
-    processed_products = {product.id: {'name': product.name, 'price': product.price, 'stock': product.quantity, 'units_sold': 0, 'category_name': next((c.name for c in categories if c.id == product.category_id), 'Unknown')} for product in products}
-    
+    processed_products = {}
+
+    for product in products:
+        category_name = next((c.name for c in categories if c.id == product.category_id), 'Unknown')
+        processed_products[product.id] = {
+            'name': product.name,
+            'price': product.price,
+            'stock': product.quantity,
+            'units_sold': 0,
+            'category_name': category_name
+        }
+
     for item in order_items:
-        processed_products.setdefault(item.product_id, {'name': item.product_name, 'price': item.price, 'stock': 0, 'units_sold': 0, 'category_name': 'Unknown'})['units_sold'] += item.quantity
-    
+        product_id = item.product_id
+        if product_id not in processed_products:
+            processed_products[product_id] = {
+                'name': item.product_name,
+                'price': item.price,
+                'stock': 0,
+                'units_sold': 0,
+                'category_name': 'Unknown'
+            }
+        processed_products[product_id]['units_sold'] += item.quantity
+
     return list(processed_products.values())
 
 
