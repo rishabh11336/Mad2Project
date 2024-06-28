@@ -1,8 +1,8 @@
-# Project Name
+# E-Commerce Application
 
 ## Overview
 
-This project is a web application that downloads audio from YouTube videos, transcribes the audio using Whisper AI, and provides options to view and download the transcription files. The frontend is built with Vue.js and the backend is powered by Python Flask.
+This project is a full-featured e-commerce web application with a Vue.js frontend and a Python Flask backend. The application allows users to browse products, add them to a cart, and complete purchases.
 
 ## Folder Structure
 
@@ -70,17 +70,21 @@ This project is a web application that downloads audio from YouTube videos, tran
 
 ## Project Features
 
-- Download audio from YouTube videos.
-- Transcribe audio using Whisper AI.
-- View transcriptions in the web application.
-- Download transcription files.
+- User authentication and authorization
+- Browse products by category
+- Search for products
+- Add products to a shopping cart
+- Checkout and process orders
+- View order history
+- Admin dashboard to manage products, categories, and orders
 
 ## Usage
 
-1. Enter the YouTube video URL in the input field on the frontend.
-2. Click the "Download and Transcribe" button.
-3. View the transcription in the application.
-4. Download the transcription file if needed.
+1. Register or log in to the application.
+2. Browse or search for products.
+3. Add products to the shopping cart.
+4. Proceed to checkout to complete the purchase.
+5. View order history from your account dashboard.
 
 ## Contributing
 
