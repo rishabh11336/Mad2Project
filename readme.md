@@ -86,22 +86,10 @@ This project is a full-featured e-commerce web application with a Vue.js fronten
 4. Proceed to checkout to complete the purchase.
 5. View order history from your account dashboard.
 
-## Contributing
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/your-feature-name`).
-3. Make your changes and commit them (`git commit -m 'Add some feature'`).
-4. Push to the branch (`git push origin feature/your-feature-name`).
-5. Open a pull request.
-
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Contact
 
-For any questions or suggestions, please open an issue or contact [Your Name] at [your-email@example.com].
-
----
-
-Feel free to customize this README file according to your project's specific details and requirements.
+For any questions or suggestions, please open an issue or contact [Rishabh Singh](https://www.linkedin.com/in/rishabh11336/).
