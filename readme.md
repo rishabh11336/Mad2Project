@@ -4,6 +4,23 @@
 
 This project is a full-featured e-commerce web application with a Vue.js frontend and a Python Flask backend. The application allows users to browse products, add them to a cart, and complete purchases.
 
+### [Demo Video](https://youtu.be/i4yAR1TIhAs)
+
+# Technologies Used
+
+* **Python:** Primary language for controller development and hosting the app.
+* **Vue.js:** Front-end development.
+* **HTML:** Creation of Vue components and templates.
+* **Bootstrap:** Enhancing front-end design and navigation.
+* **SQLite:** Database for the app.
+* **Flask:** Web framework of the app.
+* **Flask-SQLAlchemy:** Accessing and modifying SQLite database.
+* **Flask-Celery:** Handling asynchronous background jobs.
+* **Flask-Caching:** Caching API outputs for improved performance.
+* **Redis:** In-memory database for API cache and message broker for Celery.
+* **Chart.js:** Generating various charts.
+* **Git:** Version control management.
+
 ## Folder Structure
 
 - `Frontend`: Contains the Vue.js application code.
@@ -85,6 +102,7 @@ This project is a full-featured e-commerce web application with a Vue.js fronten
 3. Add products to the shopping cart.
 4. Proceed to checkout to complete the purchase.
 5. View order history from your account dashboard.
+
 
 ## License
 
