@@ -63,7 +63,7 @@ This project is a full-featured e-commerce web application with a Vue.js fronten
 4. Start the Flask server:
 
     ```bash
-    flask run
+    python3 main.py
     ```
 
     The backend application will be running at `http://localhost:5000`.
